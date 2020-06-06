@@ -1,4 +1,4 @@
 class InstructionSerializer < ActiveModel::Serializer
   attributes :id, :description
-  has_one :recipe
+  belongs_to :recipe
 end
