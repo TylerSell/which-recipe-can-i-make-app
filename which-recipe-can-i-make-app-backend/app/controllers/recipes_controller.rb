@@ -8,12 +8,12 @@ class RecipesController < ApplicationController
     end
 
     def show
-        recipe = Recipe.find_by(id: session[:recipe_id])
+        recipe = Recipe.find_by(id: params[:id])
         render json: recipe 
     end
 
     def update 
-        recipe = Recipe.find_by(id: session[:recipe_id])
+        recipe = Recipe.find_by(id: params[:id])
         recipe.update(recipe_params)
 
         render json: recipe.save ? recipe : {message: 'Something went wrong and your changes were not saved. Please try again.'}
