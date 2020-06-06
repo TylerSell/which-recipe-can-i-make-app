@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::API
-    protect_from_forgery with: :exception
     # before_action :message_if_not_authenticated 
-    helper_method :current_user
+    # helper_method :current_user
 
     # ---------------------------------------------------------
 
