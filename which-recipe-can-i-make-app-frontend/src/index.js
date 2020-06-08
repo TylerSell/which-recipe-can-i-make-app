@@ -10,7 +10,7 @@ const getCurrentUser = () => {
     .then(resp => resp.json())
     .then(json => {
         if (json.error) {
-            loginForm()
+            userForm()
         } else {
             displayUser(json)
         }
@@ -22,7 +22,11 @@ const displayUser = () => {
 
 }
 
-const loginForm = () => {
+const userForm = () => {
+    const row = document.createElement('div')
+    div.setAttribute("class", "row flex-xl-nowrap justify-content-center")
+    const div = document.createElement('div')
+    div.setAttribute("class", "col-6 mx-auto")
     const card = document.createElement('div')
     card.setAttribute("class", "shadow card")
     const cardHeader = document.createElement('h5')
@@ -110,8 +114,12 @@ const loginForm = () => {
     // attach cardHeader then cardBody to card
     card.appendChild(cardHeader)
     card.appendChild(cardBody)
-    // attach card to mainSection
-    mainSection.appendChild(card)
+    // attach card to div
+    div.appendChild(card)
+    // attach div to row
+    row.appendChild(div)
+    // attach row to mainSection
+    mainSection.appendChild(row)
 }
 
 
