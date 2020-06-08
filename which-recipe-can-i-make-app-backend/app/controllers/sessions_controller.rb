@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
             session[:user_id] = @user.id 
             render json: @user 
         else 
-            render json: {alert: "Invalid Credentials. Please Try Again."}
+            render json: {error: "Invalid Credentials. Please Try Again."}
         end
     end
 
@@ -22,7 +22,7 @@ class SessionsController < ApplicationController
 
     def destroy
         session.clear
-        render json: { alert: "Successfully logged out" }
+        render json: { message: "Successfully logged out" }
     end
 
 end

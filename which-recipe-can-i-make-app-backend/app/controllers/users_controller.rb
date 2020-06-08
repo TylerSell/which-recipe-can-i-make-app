@@ -7,23 +7,23 @@ class UsersController < ApplicationController
             session[:user_id] = user.id 
             render json: user 
         else 
-            render json: {alert: 'Something went wrong please try again'}
+            render json: {error: 'Something went wrong please try again'}
         end
     end
 
     def show
-        # user = User.find_by(id: session[:user_id])
-        user = User.find_by(id: params[:id])
+        user = current_user
+        # user = User.find_by(id: params[:id])
         render json: user 
     end
 
     def update 
-        user = User.find_by(id: session[:user_id])
+        user = current_user
         user.update(user_params)
         if user.save 
             render json: user 
         else 
-            render json: {alert: 'Something went wrong and your changes were not saved. Please try again.'}
+            render json: {error: 'Something went wrong and your changes were not saved. Please try again.'}
         end
     end
 

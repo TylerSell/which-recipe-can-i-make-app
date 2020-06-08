@@ -1,17 +1,16 @@
 class RecipesController < ApplicationController
 
     def index
-        # user = User.find_by(id: session[:user_id])
-        user = User.find_by(id: params[:user_id])
+        user = current_user
         recipes = user.recipes
         render json: recipes
     end
     
     def create 
-        user = User.find_by(id: session[:user_id])
+        user = current_user
         recipe = user.recipe.build(recipe_params)
 
-        render json: recipe.save ? recipe : {message: 'Something went wrong please try again'}
+        render json: recipe.save ? recipe : {error: 'Something went wrong please try again'}
     end
 
     def show
@@ -23,7 +22,7 @@ class RecipesController < ApplicationController
         recipe = Recipe.find_by(id: params[:id])
         recipe.update(recipe_params)
 
-        render json: recipe.save ? recipe : {message: 'Something went wrong and your changes were not saved. Please try again.'}
+        render json: recipe.save ? recipe : {error: 'Something went wrong and your changes were not saved. Please try again.'}
 
     end
 

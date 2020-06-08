@@ -10,14 +10,14 @@ class InstructionsController < ApplicationController
         recipe = Recipe.find_by(id: params[:recipe_id])
         instruction = recipe.instruction.build(instruction_params)
 
-        render json: instruction.save ? instruction : {message: 'Something went wrong please try again'}
+        render json: instruction.save ? instruction : {error: 'Something went wrong please try again'}
     end
 
     def update 
         instruction = Instruction.find_by(id: params[:id])
         instruction.update(instruction_params)
 
-        render json: instruction.save ? instruction : {message: 'Something went wrong and your changes were not saved. Please try again.'}
+        render json: instruction.save ? instruction : {error: 'Something went wrong and your changes were not saved. Please try again.'}
     end
 
 
