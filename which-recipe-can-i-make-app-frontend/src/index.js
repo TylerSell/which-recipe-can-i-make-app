@@ -10,10 +10,18 @@ const getCurrentUser = () => {
     .then(resp => resp.json())
     .then(json => {
         if (json.error) {
-            alert(json.error)
+            loginForm()
         } else {
-            console.log(json)
+            displayUser(json)
         }
     })
     .catch(console.log)
+}
+
+const displayUser = () => {
+
+}
+
+const loginForm = () => {
+    
 }
