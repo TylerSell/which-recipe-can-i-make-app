@@ -1,4 +1,11 @@
 class RecipesController < ApplicationController
+
+    def index
+        # user = User.find_by(id: session[:user_id])
+        user = User.find_by(id: params[:user_id])
+        recipes = user.recipes
+        render json: recipes
+    end
     
     def create 
         user = User.find_by(id: session[:user_id])
