@@ -13,9 +13,7 @@ class SessionsController < ApplicationController
 
     def get_current_user
         if logged_in?
-            render json: {
-                # return the current user json
-            } 
+            render json: current_user, serializer: UserSerializer
         else 
             render json: { alert: "No current User logged in."}
         end
