@@ -1,12 +1,15 @@
 Rails.application.routes.draw do
   
-  
+  post '/login', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy'
+  get '/get_current_user', to: 'sessions#get_current_user'
   
   resources :users do 
-    resources :recipes
-    resources :pantry_items
-    resources :instructions
-    resources :ingredients
+    resources :recipes do 
+      resources :instructions, only: [:index, :create, :update]
+      resources :ingredients, only: [:index, :create, :update]
+    end
+    resources :pantry_items, only: [:index, :create, :update, :destroy]
   end
 
 
