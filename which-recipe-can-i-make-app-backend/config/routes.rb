@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   get '/get_current_user', to: 'sessions#get_current_user'
   
-  resources :users do 
+  resources :users, only: [:create, :show, :update] do 
     resources :recipes do 
       resources :instructions, only: [:index, :create, :update]
       resources :ingredients, only: [:index, :create, :update]
