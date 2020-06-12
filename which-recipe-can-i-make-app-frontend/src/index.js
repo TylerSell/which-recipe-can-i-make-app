@@ -11,21 +11,40 @@ const loadPage = () => {
     .then(resp => resp.json())
     .then(json => {
         if (json.error) {
-            console.log('if')
-            // homePage()
+            homePage()
         } else {
-            console.log('else')
-            // loggedInLayout(json)
+            loggedInLayout()
         }
     })
     .catch(console.log)
+
+    userSignupForm();
+    userLoginForm();
 }
 
 const homePage = () => {
     const span = document.createElement('span')
     span.setAttribute("class", "navbar-brand mb-0 h1")
-    span.innerText = 'This is Brand Logo Text'
+    span.innerText = 'What Recipe Can I Make?'
     pageHeader.appendChild(span)
+
+    const headerForm = document.createElement('form')
+    headerForm.setAttribute("class", "form-inline ml-auto")
+
+    const signUpButton = document.createElement('button')
+    signUpButton.setAttribute("id", "signUpButton")
+    signUpButton.setAttribute("class", "btn btn-outline-info mr-2")
+    signUpButton.innerHTML = "Sign Up"
+    signUpButton.addEventListener("click", userSignupForm())
+    
+    const logInButton = document.createElement('button')
+    logInButton.setAttribute("id", "logInButton")
+    logInButton.setAttribute("class", "btn btn-success")
+    logInButton.innerHTML = 'Login'
+    
+    headerForm.appendChild(signUpButton)
+    headerForm.appendChild(logInButton)
+    pageHeader.appendChild(headerForm)
 }
 
 const loggedInLayout = () => {
