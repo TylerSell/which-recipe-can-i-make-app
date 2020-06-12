@@ -13,7 +13,7 @@ const loadPage = () => {
         if (json.error) {
             homePage()
         } else {
-            loggedInLayout()
+            loggedInLayout(json)
         }
     })
     .catch(console.log)
@@ -47,11 +47,67 @@ const homePage = () => {
     pageHeader.appendChild(headerForm)
 }
 
-const loggedInLayout = () => {
+const loggedInLayout = (user) => {
+    const span = document.createElement('span')
+    span.setAttribute("class", "navbar-brand mb-0 h1")
+    span.innerText = 'What Recipe Can I Make?'
+
+    const navUl = document.createElement('form')
+    navUl.setAttribute("class", "navbar-nav mr-auto")
+
+    const userLi = document.createElement('li')
+    userLi.setAttribute("class", "nav-item")
+    const userLink = document.createElement('a')
+    userLink.setAttribute("class", "nav-link")
+    userLink.setAttribute("href", "#")
+    userLink.innerHTML = `${user['first_name']} ${user['last_name']}`
+    userLink.addEventListener("click", displayUser(user))
+    userLi.appendChild(userLink)
+    navUl.appendChild(userLi)
+
+    const pantryLi = document.createElement('li')
+    pantryLi.setAttribute("class", "nav-item")
+    const pantryLink = document.createElement('a')
+    pantryLink.setAttribute("class", "nav-link")
+    pantryLink.setAttribute("href", "#")
+    pantryLink.innerHTML = "Pantry"
+    pantryLink.addEventListener("click", displayPantry())
+    pantryLi.appendChild(pantryLink)
+    navUl.appendChild(pantryLi)
+
+    const recipesLi = document.createElement('li')
+    recipesLi.setAttribute("class", "nav-item")
+    const recipesLink = document.createElement('a')
+    recipesLink.setAttribute("class", "nav-link")
+    recipesLink.setAttribute("href", "#")
+    recipesLink.innerHTML = "Pantry"
+    recipesLink.addEventListener("click", displayRecipes())
+    recipesLi.appendChild(recipesLink)
+    navUl.appendChild(recipesLi)
+
+    const headerForm = document.createElement('form')
+    headerForm.setAttribute("class", "form-inline ml-auto")
+    
+    const logOutButton = document.createElement('button')
+    logOutButton.setAttribute("id", "logOutButton")
+    logOutButton.setAttribute("class", "btn btn-success")
+    logOutButton.innerHTML = 'Logout'
+
+    pageHeader.appendChild(span) 
+    pageHeader.appendChild(navUl)
+    headerForm.appendChild(logOutButton)
+    pageHeader.appendChild(headerForm)
+}
+
+const displayUser = (user) => {
 
 }
 
-const displayUser = () => {
+const displayPantry = () => {
+
+}
+
+const displayRecipes = () => {
 
 }
 
