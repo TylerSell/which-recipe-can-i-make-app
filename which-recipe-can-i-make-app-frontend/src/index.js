@@ -2,27 +2,41 @@ const BASE_URL = "http://localhost:3000"
 const USER_URL = `${BASE_URL}/get_current_user`
 const RECIPES_URL = `${BASE_URL}/recipes`
 const mainSection = document.querySelector('main')
+const pageHeader = document.getElementById('header')
 
-document.addEventListener("DOMContentLoaded", () => getCurrentUser())
+document.addEventListener("DOMContentLoaded", () => loadPage())
 
-const getCurrentUser = () => {
+const loadPage = () => {
     fetch(USER_URL)
     .then(resp => resp.json())
     .then(json => {
         if (json.error) {
-            userForm()
+            console.log('if')
+            // homePage()
         } else {
-            displayUser(json)
+            console.log('else')
+            // loggedInLayout(json)
         }
     })
     .catch(console.log)
+}
+
+const homePage = () => {
+    const span = document.createElement('span')
+    span.setAttribute("class", "navbar-brand mb-0 h1")
+    span.innerText = 'This is Brand Logo Text'
+    pageHeader.appendChild(span)
+}
+
+const loggedInLayout = () => {
+
 }
 
 const displayUser = () => {
 
 }
 
-const userForm = () => {
+const userSignupForm = () => {
     const row = document.createElement('div')
     div.setAttribute("class", "row flex-xl-nowrap justify-content-center")
     const div = document.createElement('div')
