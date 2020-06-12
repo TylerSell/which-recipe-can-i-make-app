@@ -17,16 +17,12 @@ const loadPage = () => {
         }
     })
     .catch(console.log)
-
-    userSignupForm();
-    userLoginForm();
 }
 
 const homePage = () => {
     const span = document.createElement('span')
     span.setAttribute("class", "navbar-brand mb-0 h1")
     span.innerText = 'What Recipe Can I Make?'
-    pageHeader.appendChild(span)
 
     const headerForm = document.createElement('form')
     headerForm.setAttribute("class", "form-inline ml-auto")
@@ -35,15 +31,15 @@ const homePage = () => {
     signUpButton.setAttribute("id", "signUpButton")
     signUpButton.setAttribute("class", "btn btn-outline-info mr-2")
     signUpButton.innerHTML = "Sign Up"
-    signUpButton.addEventListener("click", userSignupForm())
-    
+    headerForm.appendChild(signUpButton)
+
     const logInButton = document.createElement('button')
     logInButton.setAttribute("id", "logInButton")
     logInButton.setAttribute("class", "btn btn-success")
     logInButton.innerHTML = 'Login'
-    
-    headerForm.appendChild(signUpButton)
     headerForm.appendChild(logInButton)
+    
+    pageHeader.appendChild(span)
     pageHeader.appendChild(headerForm)
 }
 
@@ -61,7 +57,6 @@ const loggedInLayout = (user) => {
     userLink.setAttribute("class", "nav-link")
     userLink.setAttribute("href", "#")
     userLink.innerHTML = `${user['first_name']} ${user['last_name']}`
-    userLink.addEventListener("click", displayUser(user))
     userLi.appendChild(userLink)
     navUl.appendChild(userLi)
 
@@ -71,7 +66,6 @@ const loggedInLayout = (user) => {
     pantryLink.setAttribute("class", "nav-link")
     pantryLink.setAttribute("href", "#")
     pantryLink.innerHTML = "Pantry"
-    pantryLink.addEventListener("click", displayPantry())
     pantryLi.appendChild(pantryLink)
     navUl.appendChild(pantryLi)
 
@@ -81,7 +75,6 @@ const loggedInLayout = (user) => {
     recipesLink.setAttribute("class", "nav-link")
     recipesLink.setAttribute("href", "#")
     recipesLink.innerHTML = "Pantry"
-    recipesLink.addEventListener("click", displayRecipes())
     recipesLi.appendChild(recipesLink)
     navUl.appendChild(recipesLi)
 
@@ -113,7 +106,7 @@ const displayRecipes = () => {
 
 const userSignupForm = () => {
     const row = document.createElement('div')
-    div.setAttribute("class", "row flex-xl-nowrap justify-content-center")
+    row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
     const div = document.createElement('div')
     div.setAttribute("class", "col-6 mx-auto")
     const card = document.createElement('div')
