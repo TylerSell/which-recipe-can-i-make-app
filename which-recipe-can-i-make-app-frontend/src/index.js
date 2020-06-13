@@ -52,7 +52,7 @@ const homePage = () => {
     homePageContent.setAttribute("class", "row flex justify-content-center")
 
     const contentCard = document.createElement('div')
-    contentCard.setAttribute("class", "shadow card mx-auto my-5")
+    contentCard.setAttribute("class", "shadow card text-white bg-dark mx-auto my-5")
     contentCard.style.maxWidth = "640px"
 
     const cardImg = document.createElement('img')
@@ -160,7 +160,7 @@ const userSignupForm = () => {
     row.setAttribute("id", "signupRow")
 
     const card = document.createElement('div')
-    card.setAttribute("class", "shadow card w-50 mx-auto my-5")
+    card.setAttribute("class", "shadow card text-white bg-dark w-50 mx-auto my-5")
     const cardHeader = document.createElement('h5')
     cardHeader.setAttribute("class", "card-header text-center")
     cardHeader.innerHTML = "New User Signup"
@@ -176,7 +176,7 @@ const userSignupForm = () => {
     firstNameLabel.setAttribute("for", "user_first_name")
     firstNameLabel.innerHTML = "First Name"
     const firstNameInput = document.createElement('input')
-    firstNameInput.setAttribute("class", "form-control")
+    firstNameInput.setAttribute("class", "form-control bg-secondary text-white")
     firstNameInput.setAttribute("type", "text")
     firstNameInput.setAttribute("name", "user[first_name]")
     firstNameInput.setAttribute("id", "user_first_name")
@@ -187,7 +187,7 @@ const userSignupForm = () => {
     lastNameLabel.setAttribute("for", "user_last_name")
     lastNameLabel.innerHTML = "Last Name"
     const lastNameInput = document.createElement('input')
-    lastNameInput.setAttribute("class", "form-control")
+    lastNameInput.setAttribute("class", "form-control bg-secondary text-white")
     lastNameInput.setAttribute("type", "text")
     lastNameInput.setAttribute("name", "user[last_name]")
     lastNameInput.setAttribute("id", "user_last_name")
@@ -198,7 +198,7 @@ const userSignupForm = () => {
     emailLabel.setAttribute("for", "user_email_signup")
     emailLabel.innerHTML = "Email"
     const emailInput = document.createElement('input')
-    emailInput.setAttribute("class", "form-control")
+    emailInput.setAttribute("class", "form-control bg-secondary text-white")
     emailInput.setAttribute("type", "text")
     emailInput.setAttribute("name", "user[email]")
     emailInput.setAttribute("id", "user_email")
@@ -209,16 +209,16 @@ const userSignupForm = () => {
     passwordLabel.setAttribute("for", "user_password")
     passwordLabel.innerHTML = "Password"
     const passwordInput = document.createElement('input')
-    passwordInput.setAttribute("class", "form-control")
+    passwordInput.setAttribute("class", "form-control bg-secondary text-white")
     passwordInput.setAttribute("type", "password")
     passwordInput.setAttribute("name", "user[password]")
     passwordInput.setAttribute("id", "user_password_signup")
 
     const submitButton = document.createElement('input')
-    submitButton.setAttribute("class", "btn btn-primary btn-block text-decoration-none")
+    submitButton.setAttribute("class", "btn btn-outline-primary btn-block text-decoration-none")
     submitButton.setAttribute("type", "submit")
     submitButton.setAttribute("name", "commit")
-    submitButton.setAttribute("value", "Login")
+    submitButton.setAttribute("value", "Sign Up")
     submitButton.setAttribute("data-disable-with", "Login")
 
     // build firstNameGroup then attach to form
@@ -267,7 +267,7 @@ const userLoginForm = () => {
     row.setAttribute("id", "loginRow")
 
     const card = document.createElement('div')
-    card.setAttribute("class", "shadow card w-50 mx-auto my-5")
+    card.setAttribute("class", "shadow card text-white bg-dark w-50 mx-auto my-5")
     const cardHeader = document.createElement('h5')
     cardHeader.setAttribute("class", "card-header text-center")
     cardHeader.innerHTML = "User Login"
@@ -283,7 +283,7 @@ const userLoginForm = () => {
     emailLabel.setAttribute("for", "user_email")
     emailLabel.innerHTML = "Email"
     const emailInput = document.createElement('input')
-    emailInput.setAttribute("class", "form-control")
+    emailInput.setAttribute("class", "form-control bg-secondary text-white")
     emailInput.setAttribute("type", "text")
     emailInput.setAttribute("name", "user[email]")
     emailInput.setAttribute("id", "user_email_login")
@@ -294,13 +294,13 @@ const userLoginForm = () => {
     passwordLabel.setAttribute("for", "user_password")
     passwordLabel.innerHTML = "Password"
     const passwordInput = document.createElement('input')
-    passwordInput.setAttribute("class", "form-control")
+    passwordInput.setAttribute("class", "form-control bg-secondary text-white")
     passwordInput.setAttribute("type", "password")
     passwordInput.setAttribute("name", "user[password]")
     passwordInput.setAttribute("id", "user_password_login")
 
     const submitButton = document.createElement('input')
-    submitButton.setAttribute("class", "btn btn-primary btn-block text-decoration-none")
+    submitButton.setAttribute("class", "btn btn-outline-primary btn-block text-decoration-none")
     submitButton.setAttribute("type", "submit")
     submitButton.setAttribute("name", "commit")
     submitButton.setAttribute("value", "Login")
