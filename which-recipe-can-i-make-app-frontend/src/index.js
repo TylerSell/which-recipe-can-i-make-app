@@ -97,19 +97,21 @@ const loggedInLayout = (user) => {
     pageHeader.appendChild(headerForm)
 }
 
-const displayUser = (user) => {
-
+const displayUser = (event) => {
+    event.preventDefault();
 }
 
-const displayPantry = () => {
-
+const displayPantry = (event) => {
+    event.preventDefault();
 }
 
-const displayRecipes = () => {
-
+const displayRecipes = (event) => {
+    event.preventDefault();
 }
 
-const userSignupForm = () => {
+const userSignupForm = (event) => {
+    event.preventDefault();
+
     const row = document.createElement('div')
     row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
     const div = document.createElement('div')
@@ -209,13 +211,15 @@ const userSignupForm = () => {
     mainSection.appendChild(row)
 }
 
-const userLoginForm = () => {
+const userLoginForm = (event) => {
+    event.preventDefault();
+
     const row = document.createElement('div')
     row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
     const div = document.createElement('div')
     div.setAttribute("class", "col-6 mx-auto")
     const card = document.createElement('div')
-    card.setAttribute("class", "shadow card")
+    card.setAttribute("class", "shadow card w-50")
     const cardHeader = document.createElement('h5')
     cardHeader.setAttribute("class", "card-header text-center")
     cardHeader.innerHTML = "User Login"
