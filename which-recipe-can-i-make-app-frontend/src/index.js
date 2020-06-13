@@ -41,7 +41,7 @@ const homePage = () => {
     logInButton.setAttribute("id", "logInButton")
     logInButton.setAttribute("class", "btn btn-success")
     logInButton.innerHTML = 'Login'
-    signUpButton.addEventListener("click", displayLoginForm)
+    logInButton.addEventListener("click", displayLoginForm)
     headerForm.appendChild(logInButton)
     
     pageHeader.appendChild(span)
@@ -124,13 +124,12 @@ const userSignupForm = () => {
     row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
     row.style.display = "none"
     row.setAttribute("id", "signupRow")
-    const div = document.createElement('div')
-    div.setAttribute("class", "mx-auto")
+
     const card = document.createElement('div')
-    card.setAttribute("class", "shadow card w-50")
+    card.setAttribute("class", "shadow card w-50 mx-auto my-5")
     const cardHeader = document.createElement('h5')
     cardHeader.setAttribute("class", "card-header text-center")
-    cardHeader.innerHTML = "User Login"
+    cardHeader.innerHTML = "New User Signup"
     const cardBody = document.createElement('div')
     cardBody.setAttribute("class", "card-body")
     const cardText = document.createElement('p')
@@ -162,7 +161,7 @@ const userSignupForm = () => {
     const emailGroup = document.createElement('div')
     emailGroup.setAttribute("class", "form-group")
     const emailLabel = document.createElement('label')
-    emailLabel.setAttribute("for", "user_email")
+    emailLabel.setAttribute("for", "user_email_signup")
     emailLabel.innerHTML = "Email"
     const emailInput = document.createElement('input')
     emailInput.setAttribute("class", "form-control")
@@ -179,7 +178,7 @@ const userSignupForm = () => {
     passwordInput.setAttribute("class", "form-control")
     passwordInput.setAttribute("type", "password")
     passwordInput.setAttribute("name", "user[password]")
-    passwordInput.setAttribute("id", "user_password")
+    passwordInput.setAttribute("id", "user_password_signup")
 
     const submitButton = document.createElement('input')
     submitButton.setAttribute("class", "btn btn-primary btn-block text-decoration-none")
@@ -213,10 +212,8 @@ const userSignupForm = () => {
     // attach cardHeader then cardBody to card
     card.appendChild(cardHeader)
     card.appendChild(cardBody)
-    // attach card to div
-    div.appendChild(card)
     // attach div to row
-    row.appendChild(div)
+    row.appendChild(card)
     // attach row to mainSection
     mainSection.appendChild(row)
 }
@@ -254,7 +251,7 @@ const userLoginForm = () => {
     emailInput.setAttribute("class", "form-control")
     emailInput.setAttribute("type", "text")
     emailInput.setAttribute("name", "user[email]")
-    emailInput.setAttribute("id", "user_email")
+    emailInput.setAttribute("id", "user_email_login")
 
     const passwordGroup = document.createElement('div')
     passwordGroup.setAttribute("class", "form-group")
@@ -265,7 +262,7 @@ const userLoginForm = () => {
     passwordInput.setAttribute("class", "form-control")
     passwordInput.setAttribute("type", "password")
     passwordInput.setAttribute("name", "user[password]")
-    passwordInput.setAttribute("id", "user_password")
+    passwordInput.setAttribute("id", "user_password_login")
 
     const submitButton = document.createElement('input')
     submitButton.setAttribute("class", "btn btn-primary btn-block text-decoration-none")
