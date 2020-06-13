@@ -46,6 +46,39 @@ const homePage = () => {
     
     pageHeader.appendChild(span)
     pageHeader.appendChild(headerForm)
+
+    const homePageContent = document.createElement('row')
+    homePageContent.setAttribute("id", "homePageContent")
+    homePageContent.setAttribute("class", "row flex justify-content-center")
+
+    const contentCard = document.createElement('div')
+    contentCard.setAttribute("class", "shadow card mx-auto my-5")
+    contentCard.style.maxWidth = "640px"
+
+    const cardImg = document.createElement('img')
+    cardImg.setAttribute("class", "card-img-top")
+    cardImg.setAttribute("src", "https://cdn.pixabay.com/photo/2014/04/03/19/46/recipe-312959_960_720.jpg")
+    cardImg.setAttribute("alt", "Recipe Card Photo")
+    cardImg.style.maxHeight = "640px"
+    cardImg.style.maxWidth = "960px"
+
+    const cardBody = document.createElement('div')
+    cardBody.setAttribute("class", "card-body")
+
+    const cardTitle = document.createElement('h5')
+    cardTitle.setAttribute("class", "card-title text-center")
+    cardTitle.innerHTML = "What Recipe Can I Make?"
+
+    const cardText = document.createElement('p')
+    cardText.setAttribute("class", "card-text")
+    cardText.innerHTML = "That is the real question.  We all have our own stack of recipes that we make fairly frequently.  We all have lots of items in our pantries.  But inevitably at some point this happens to us all.  We start looking through our recipes wondering if we have all the items and ingredients to make the recipe in our hands.  We find a recipe only to spend the next couple minutes finding all the ingredients only to discover that we are missing something major.  Back to the drawing board and find another one.  Ahhhhh it happened again.  This is getting really frustrating.  Why can't there be a way to know which recipes I CAN make with what I already have in my pantry.  That is what this app is here to solve.  You enter YOUR recipes.  You enter what is in your pantry.  And at any time you can quickly check what recipes you have all the items for.  It will also save all your recipes for you and you can update your pantry as you make things so that you will always know where you stand and what you can make.  So if you are new here signup at the Sign Up button above or if you have been here before Login so you can get cooking!"
+    
+    cardBody.appendChild(cardTitle)
+    cardBody.appendChild(cardText)
+    contentCard.appendChild(cardImg)
+    contentCard.appendChild(cardBody)
+    homePageContent.appendChild(contentCard)
+    mainSection.appendChild(homePageContent)
 }
 
 const loggedInLayout = (user) => {
@@ -117,6 +150,7 @@ const displaySignupForm = (event) => {
 
     document.getElementById('signupRow').removeAttribute("style")
     document.getElementById('loginRow').style.display = "none"
+    document.getElementById('homePageContent').style.display = "none"
 }
 
 const userSignupForm = () => {
@@ -223,6 +257,7 @@ const displayLoginForm = (event) => {
 
     document.getElementById('loginRow').removeAttribute("style")
     document.getElementById('signupRow').style.display = "none"
+    document.getElementById('homePageContent').style.display = "none"
 }
 
 const userLoginForm = () => {
