@@ -178,7 +178,7 @@ const userSignupForm = () => {
     const firstNameInput = document.createElement('input')
     firstNameInput.setAttribute("class", "form-control bg-secondary text-white")
     firstNameInput.setAttribute("type", "text")
-    firstNameInput.setAttribute("name", "user[first_name]")
+    firstNameInput.setAttribute("name", "first_name")
     firstNameInput.setAttribute("id", "user_first_name")
 
     const lastNameGroup = document.createElement('div')
@@ -189,7 +189,7 @@ const userSignupForm = () => {
     const lastNameInput = document.createElement('input')
     lastNameInput.setAttribute("class", "form-control bg-secondary text-white")
     lastNameInput.setAttribute("type", "text")
-    lastNameInput.setAttribute("name", "user[last_name]")
+    lastNameInput.setAttribute("name", "last_name")
     lastNameInput.setAttribute("id", "user_last_name")
 
     const emailGroup = document.createElement('div')
@@ -200,7 +200,7 @@ const userSignupForm = () => {
     const emailInput = document.createElement('input')
     emailInput.setAttribute("class", "form-control bg-secondary text-white")
     emailInput.setAttribute("type", "text")
-    emailInput.setAttribute("name", "user[email]")
+    emailInput.setAttribute("name", "email")
     emailInput.setAttribute("id", "user_email")
 
     const passwordGroup = document.createElement('div')
@@ -211,7 +211,7 @@ const userSignupForm = () => {
     const passwordInput = document.createElement('input')
     passwordInput.setAttribute("class", "form-control bg-secondary text-white")
     passwordInput.setAttribute("type", "password")
-    passwordInput.setAttribute("name", "user[password]")
+    passwordInput.setAttribute("name", "password")
     passwordInput.setAttribute("id", "user_password_signup")
 
     const submitButton = document.createElement('input')
@@ -219,7 +219,7 @@ const userSignupForm = () => {
     submitButton.setAttribute("type", "submit")
     submitButton.setAttribute("name", "commit")
     submitButton.setAttribute("value", "Sign Up")
-    submitButton.setAttribute("data-disable-with", "Login")
+    submitButton.setAttribute("data-disable-with", "Signing You Up.....")
 
     // build firstNameGroup then attach to form
     firstNameGroup.appendChild(firstNameLabel)
@@ -276,6 +276,7 @@ const userLoginForm = () => {
     const cardText = document.createElement('p')
     cardText.setAttribute("class", "card-text")
     const form = document.createElement('form')
+    form.setAttribute("id", "loginForm")
 
     const emailGroup = document.createElement('div')
     emailGroup.setAttribute("class", "form-group")
@@ -285,7 +286,7 @@ const userLoginForm = () => {
     const emailInput = document.createElement('input')
     emailInput.setAttribute("class", "form-control bg-secondary text-white")
     emailInput.setAttribute("type", "text")
-    emailInput.setAttribute("name", "user[email]")
+    emailInput.setAttribute("name", "email")
     emailInput.setAttribute("id", "user_email_login")
 
     const passwordGroup = document.createElement('div')
@@ -296,7 +297,7 @@ const userLoginForm = () => {
     const passwordInput = document.createElement('input')
     passwordInput.setAttribute("class", "form-control bg-secondary text-white")
     passwordInput.setAttribute("type", "password")
-    passwordInput.setAttribute("name", "user[password]")
+    passwordInput.setAttribute("name", "password")
     passwordInput.setAttribute("id", "user_password_login")
 
     const submitButton = document.createElement('input')
@@ -304,8 +305,8 @@ const userLoginForm = () => {
     submitButton.setAttribute("type", "submit")
     submitButton.setAttribute("name", "commit")
     submitButton.setAttribute("value", "Login")
-    submitButton.setAttribute("data-disable-with", "Login")
-    // submitButton.setEventListener("click", getUser)
+    submitButton.setAttribute("data-disable-with", "Logging You In.....")
+    submitButton.addEventListener("click", loginUser)
 
     // build emailGroup then attach to form
     emailGroup.appendChild(emailLabel)
@@ -328,6 +329,34 @@ const userLoginForm = () => {
     row.appendChild(card)
     // attach row to mainSection
     mainSection.appendChild(row)
+}
+
+const loginUser = (event) => {
+    event.preventDefault();
+    // alert(document.getElementById('loginForm'));
+
+    let formData = new FormData(document.getElementById('loginForm'));
+    
+    const sendObject = {
+        credentials: "include",
+        method: "POST",
+        headers: {
+            // "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: formData
+    }
+
+    fetch(`${BASE_URL}/login`, sendObject)
+    .then(response => response.json())
+    .then(json => {
+        if (json.error) {
+            alert(json.error)
+        } else {
+            loggedInLayout()
+        }
+    })
+    .catch(console.log)
 }
 
 
