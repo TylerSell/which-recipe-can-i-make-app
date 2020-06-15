@@ -384,10 +384,10 @@ const getUser = (event) => {
 }
 
 const displayUser = (user) => {
-    alert(`${user['first_name']}`)
     const row = document.createElement('div')
     row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
     row.setAttribute("id", "userRow")
+    
 
     const card = document.createElement('div')
     card.setAttribute("class", "shadow card text-white bg-dark w-50 mx-auto my-5")
@@ -404,11 +404,11 @@ const displayUser = (user) => {
     const nameCol = document.createElement('div')
     nameCol.setAttribute("class", "col")
     const nameP = document.createElement('p')
-    nameP.setAttribute("class", "h5")
-    const nameStrong = document.createElement('strong')
-    nameStrong.innerText = "Name: "
-    nameP.innerText = nameStrong + `${user['first_name']} ${user['last_name']}`
-    nameP.innerText = `${user.first_name} ${user.last_name}`
+    nameP.setAttribute("class", "h5 text-capitalize")
+    const nameHeading = document.createElement('strong')
+    nameHeading.innerText = "Name: "
+    nameP.appendChild(nameHeading)
+    nameP.insertAdjacentText("beforeend", `${user['first_name']} ${user['last_name']}`)
     nameCol.appendChild(nameP)
     nameRow.appendChild(nameCol)
     cardText.appendChild(nameRow)
@@ -420,14 +420,15 @@ const displayUser = (user) => {
     const emailP = document.createElement('p')
     emailP.setAttribute("class", "h5")
     const emailStrong = document.createElement('strong')
-    emailStrong.innerText = "Email:"
-    emailP.innerText = `${emailStrong} ${user['email']}`
+    emailStrong.innerText = "Email: "
+    emailP.appendChild(emailStrong)
+    emailP.insertAdjacentText("beforeend", `${user['email']}`)
     emailCol.appendChild(emailP)
     emailRow.appendChild(emailCol)
     cardText.appendChild(emailRow)
 
     const editButtonRow = document.createElement('div')
-    editButtonRow.setAttribute("class", "row ml-3")
+    editButtonRow.setAttribute("class", "row mx-3")
     const editButtonCol = document.createElement('div')
     editButtonCol.setAttribute("class", "col")
     const editButton = document.createElement('button')
