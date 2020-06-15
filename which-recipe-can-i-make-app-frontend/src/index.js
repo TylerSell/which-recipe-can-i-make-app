@@ -349,6 +349,7 @@ const logoutUser = (event) => {
     .catch(console.log)
 }
 
+// getUser DONE
 const getUser = (event) => {
     event.preventDefault();
     
@@ -383,6 +384,7 @@ const getUser = (event) => {
     .catch(console.log)
 }
 
+// displayUser DONE
 const displayUser = (user) => {
     const row = document.createElement('div')
     row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
