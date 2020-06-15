@@ -96,6 +96,7 @@ const homePage = () => {
     mainSection.appendChild(homePageContent)
 }
 
+// loggedInLayout DONE
 const loggedInLayout = (user) => {
     document.getElementById('homePageNav').style.display = "none"
     document.getElementById('loginRow').style.display = "none"
@@ -114,6 +115,7 @@ const loggedInLayout = (user) => {
     const userLink = document.createElement('a')
     userLink.setAttribute("class", "nav-link text-secondary text-capitalize")
     userLink.setAttribute("href", "#")
+    userLink.setAttribute("id", "displayUserLink")
     userLink.innerHTML = `${user['first_name']} ${user['last_name']}`
     userLink.addEventListener("click", displayUser)
     userLi.appendChild(userLink)
@@ -124,6 +126,7 @@ const loggedInLayout = (user) => {
     const pantryLink = document.createElement('a')
     pantryLink.setAttribute("class", "nav-link text-secondary")
     pantryLink.setAttribute("href", "#")
+    pantryLink.setAttribute("id", "displayPantryLink")
     pantryLink.innerHTML = "Pantry"
     pantryLink.addEventListener("click", displayPantry)
     pantryLi.appendChild(pantryLink)
@@ -134,6 +137,7 @@ const loggedInLayout = (user) => {
     const recipesLink = document.createElement('a')
     recipesLink.setAttribute("class", "nav-link text-secondary")
     recipesLink.setAttribute("href", "#")
+    recipesLink.setAttribute("id", "displayRecipesLink")
     recipesLink.innerHTML = "Recipes"
     recipesLink.addEventListener("click", displayRecipes)
     recipesLi.appendChild(recipesLink)
@@ -144,7 +148,7 @@ const loggedInLayout = (user) => {
     
     const logOutButton = document.createElement('button')
     logOutButton.setAttribute("id", "logOutButton")
-    logOutButton.setAttribute("class", "btn btn-success")
+    logOutButton.setAttribute("class", "btn btn-outline-info")
     logOutButton.innerHTML = 'Logout'
     recipesLink.addEventListener("click", logoutUser)
 
@@ -218,7 +222,7 @@ const userSignupForm = () => {
     passwordInput.setAttribute("id", "user_password_signup")
 
     const submitButton = document.createElement('input')
-    submitButton.setAttribute("class", "btn btn-outline-primary btn-block text-decoration-none")
+    submitButton.setAttribute("class", "btn btn-outline-info btn-block text-decoration-none")
     submitButton.setAttribute("type", "submit")
     submitButton.setAttribute("name", "commit")
     submitButton.setAttribute("value", "Sign Up")
@@ -347,7 +351,13 @@ const logoutUser = (event) => {
 
 const displayUser = (event) => {
     event.preventDefault();
-    alert("User got Clicked!!")
+    
+    document.getElementById('displayUserLink').removeAttribute("class")
+    document.getElementById('displayUserLink').setAttribute("class", "nav-link text-info text-capitalize")
+    document.getElementById('displayPantryLink').removeAttribute("class")
+    document.getElementById('displayPantryLink').setAttribute("class", "nav-link text-secondary")
+    document.getElementById('displayRecipesLink').removeAttribute("class")
+    document.getElementById('displayRecipesLink').setAttribute("class", "nav-link text-secondary")
 }
 
 // displaySignupForm DONE
@@ -358,8 +368,6 @@ const displaySignupForm = (event) => {
     document.getElementById('loginRow').style.display = "none"
     document.getElementById('homePageContent').style.display = "none"
 }
-
-
 
 // displayLoginForm DONE
 const displayLoginForm = (event) => {
@@ -412,7 +420,7 @@ const userLoginForm = () => {
     passwordInput.setAttribute("id", "user_password_login")
 
     const submitButton = document.createElement('input')
-    submitButton.setAttribute("class", "btn btn-outline-primary btn-block text-decoration-none")
+    submitButton.setAttribute("class", "btn btn-outline-info btn-block text-decoration-none")
     submitButton.setAttribute("type", "submit")
     submitButton.setAttribute("name", "commit")
     submitButton.setAttribute("value", "Login")
@@ -449,10 +457,22 @@ const userLoginForm = () => {
 
 const displayRecipes = (event) => {
     event.preventDefault();
-    alert("Recipes got Clicked!!")
+
+    document.getElementById('displayUserLink').removeAttribute("class")
+    document.getElementById('displayUserLink').setAttribute("class", "nav-link text-secondary text-capitalize")
+    document.getElementById('displayPantryLink').removeAttribute("class")
+    document.getElementById('displayPantryLink').setAttribute("class", "nav-link text-secondary")
+    document.getElementById('displayRecipesLink').removeAttribute("class")
+    document.getElementById('displayRecipesLink').setAttribute("class", "nav-link text-info")
 }
 
 const displayPantry = (event) => {
     event.preventDefault();
-    alert("Pantry got Clicked!!")
+
+    document.getElementById('displayUserLink').removeAttribute("class")
+    document.getElementById('displayUserLink').setAttribute("class", "nav-link text-secondary text-capitalize")
+    document.getElementById('displayPantryLink').removeAttribute("class")
+    document.getElementById('displayPantryLink').setAttribute("class", "nav-link text-info")
+    document.getElementById('displayRecipesLink').removeAttribute("class")
+    document.getElementById('displayRecipesLink').setAttribute("class", "nav-link text-secondary")
 }
