@@ -117,7 +117,7 @@ const loggedInLayout = (user) => {
     userLink.setAttribute("href", "#")
     userLink.setAttribute("id", "displayUserLink")
     userLink.innerHTML = `${user['first_name']} ${user['last_name']}`
-    userLink.addEventListener("click", displayUser)
+    userLink.addEventListener("click", getUser)
     userLi.appendChild(userLink)
     navUl.appendChild(userLi)
 
@@ -349,7 +349,7 @@ const logoutUser = (event) => {
     .catch(console.log)
 }
 
-const displayUser = (event) => {
+const getUser = (event) => {
     event.preventDefault();
     
     document.getElementById('displayUserLink').removeAttribute("class")
@@ -358,6 +358,109 @@ const displayUser = (event) => {
     document.getElementById('displayPantryLink').setAttribute("class", "nav-link text-secondary")
     document.getElementById('displayRecipesLink').removeAttribute("class")
     document.getElementById('displayRecipesLink').setAttribute("class", "nav-link text-secondary")
+
+    // fetch current_user
+    const sendObject = {
+        credentials: "include",
+        method: "GET",
+        headers: {
+            "Accept": "application/json"
+        }
+    }
+
+    let user;
+
+    fetch(USER_URL, sendObject)
+    .then(resp => resp.json())
+    .then(data => {
+        if (data.error) {
+            alert("Something Went Wrong. Please Logout and Login")
+        } else {
+            user = data;
+            displayUser(user)
+        }
+    })
+    .catch(console.log)
+}
+
+const displayUser = (user) => {
+    alert(`${user['first_name']}`)
+    const row = document.createElement('div')
+    row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
+    row.setAttribute("id", "userRow")
+
+    const card = document.createElement('div')
+    card.setAttribute("class", "shadow card text-white bg-dark w-50 mx-auto my-5")
+    const cardHeader = document.createElement('h5')
+    cardHeader.setAttribute("class", "card-header text-center")
+    cardHeader.innerHTML = "Your Information"
+    const cardBody = document.createElement('div')
+    cardBody.setAttribute("class", "card-body")
+    const cardText = document.createElement('p')
+    cardText.setAttribute("class", "card-text")
+
+    const nameRow = document.createElement('div')
+    nameRow.setAttribute("class", "row ml-3")
+    const nameCol = document.createElement('div')
+    nameCol.setAttribute("class", "col")
+    const nameP = document.createElement('p')
+    nameP.setAttribute("class", "h5")
+    const nameStrong = document.createElement('strong')
+    nameStrong.innerText = "Name: "
+    nameP.innerText = nameStrong + `${user['first_name']} ${user['last_name']}`
+    nameP.innerText = `${user.first_name} ${user.last_name}`
+    nameCol.appendChild(nameP)
+    nameRow.appendChild(nameCol)
+    cardText.appendChild(nameRow)
+
+    const emailRow = document.createElement('div')
+    emailRow.setAttribute("class", "row ml-3")
+    const emailCol = document.createElement('div')
+    emailCol.setAttribute("class", "col")
+    const emailP = document.createElement('p')
+    emailP.setAttribute("class", "h5")
+    const emailStrong = document.createElement('strong')
+    emailStrong.innerText = "Email:"
+    emailP.innerText = `${emailStrong} ${user['email']}`
+    emailCol.appendChild(emailP)
+    emailRow.appendChild(emailCol)
+    cardText.appendChild(emailRow)
+
+    const editButtonRow = document.createElement('div')
+    editButtonRow.setAttribute("class", "row ml-3")
+    const editButtonCol = document.createElement('div')
+    editButtonCol.setAttribute("class", "col")
+    const editButton = document.createElement('button')
+    editButton.setAttribute("class", "btn btn-outline-warning btn-block")
+    editButton.innerText = "Edit Your Info"
+    editButton.addEventListener("click", updateUserForm)
+    editButtonCol.appendChild(editButton)
+    editButtonRow.appendChild(editButtonCol)
+    cardText.appendChild(editButtonRow)
+
+    // attach cardText to cardBody
+    cardBody.appendChild(cardText)
+    // attach cardHeader then cardBody to card
+    card.appendChild(cardHeader)
+    card.appendChild(cardBody)
+    // attach div to row
+    row.appendChild(card)
+    // attach row to mainSection
+    mainSection.appendChild(row)
+}
+
+const updateUserForm = (event) => {
+    event.preventDefault();
+
+    alert("display Edit User form")
+}
+
+const updateUser = (event) => {
+    event.preventDefault();
+
+    // fetch to send updated user info
+
+    // display current user
 }
 
 // displaySignupForm DONE
