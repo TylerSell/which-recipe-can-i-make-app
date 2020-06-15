@@ -150,7 +150,7 @@ const loggedInLayout = (user) => {
     logOutButton.setAttribute("id", "logOutButton")
     logOutButton.setAttribute("class", "btn btn-outline-info")
     logOutButton.innerHTML = 'Logout'
-    recipesLink.addEventListener("click", logoutUser)
+    logOutButton.addEventListener("click", logoutUser)
 
     pageHeader.appendChild(span) 
     pageHeader.appendChild(navUl)
