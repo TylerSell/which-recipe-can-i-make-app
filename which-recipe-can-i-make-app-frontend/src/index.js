@@ -6,14 +6,26 @@ const pageHeader = document.getElementById('header')
 
 document.addEventListener("DOMContentLoaded", () => loadPage())
 
+// loadPage DONE
 const loadPage = () => {
-    fetch(USER_URL)
+    const sendObject = {
+        credentials: "include",
+        method: "GET",
+        headers: {
+            "Accept": "application/json"
+        }
+    }
+
+    let user;
+
+    fetch(USER_URL, sendObject)
     .then(resp => resp.json())
     .then(json => {
         if (json.error) {
             homePage()
         } else {
-            loggedInLayout(json)
+            user = json;
+            loggedInLayout(user)
         }
     })
     .catch(console.log)
@@ -22,13 +34,16 @@ const loadPage = () => {
     userSignupForm();
 }
 
+// homePage layout DONE
 const homePage = () => {
     const span = document.createElement('span')
     span.setAttribute("class", "navbar-brand mb-0 h1")
+    span.setAttribute("id", "homePageNav")
     span.innerText = 'What Recipe Can I Make?'
 
     const headerForm = document.createElement('form')
     headerForm.setAttribute("class", "form-inline ml-auto")
+    headerForm.setAttribute("id", "homePageForm")
 
     const signUpButton = document.createElement('button')
     signUpButton.setAttribute("id", "signUpButton")
@@ -82,17 +97,22 @@ const homePage = () => {
 }
 
 const loggedInLayout = (user) => {
+    document.getElementById('homePageNav').style.display = "none"
+    document.getElementById('loginRow').style.display = "none"
+    document.getElementById('signupRow').style.display = "none"
+    document.getElementById('homePageForm').style.display = "none"
     const span = document.createElement('span')
     span.setAttribute("class", "navbar-brand mb-0 h1")
+    span.setAttribute("id", "loggedInNav")
     span.innerText = 'What Recipe Can I Make?'
 
-    const navUl = document.createElement('form')
-    navUl.setAttribute("class", "navbar-nav mr-auto")
+    const navUl = document.createElement('ul')
+    navUl.setAttribute("class", "nav mr-auto")
 
     const userLi = document.createElement('li')
     userLi.setAttribute("class", "nav-item")
     const userLink = document.createElement('a')
-    userLink.setAttribute("class", "nav-link")
+    userLink.setAttribute("class", "nav-link text-secondary text-capitalize")
     userLink.setAttribute("href", "#")
     userLink.innerHTML = `${user['first_name']} ${user['last_name']}`
     userLink.addEventListener("click", displayUser)
@@ -102,7 +122,7 @@ const loggedInLayout = (user) => {
     const pantryLi = document.createElement('li')
     pantryLi.setAttribute("class", "nav-item")
     const pantryLink = document.createElement('a')
-    pantryLink.setAttribute("class", "nav-link")
+    pantryLink.setAttribute("class", "nav-link text-secondary")
     pantryLink.setAttribute("href", "#")
     pantryLink.innerHTML = "Pantry"
     pantryLink.addEventListener("click", displayPantry)
@@ -112,9 +132,9 @@ const loggedInLayout = (user) => {
     const recipesLi = document.createElement('li')
     recipesLi.setAttribute("class", "nav-item")
     const recipesLink = document.createElement('a')
-    recipesLink.setAttribute("class", "nav-link")
+    recipesLink.setAttribute("class", "nav-link text-secondary")
     recipesLink.setAttribute("href", "#")
-    recipesLink.innerHTML = "Pantry"
+    recipesLink.innerHTML = "Recipes"
     recipesLink.addEventListener("click", displayRecipes)
     recipesLi.appendChild(recipesLink)
     navUl.appendChild(recipesLi)
@@ -126,6 +146,7 @@ const loggedInLayout = (user) => {
     logOutButton.setAttribute("id", "logOutButton")
     logOutButton.setAttribute("class", "btn btn-success")
     logOutButton.innerHTML = 'Logout'
+    recipesLink.addEventListener("click", logoutUser)
 
     pageHeader.appendChild(span) 
     pageHeader.appendChild(navUl)
@@ -133,26 +154,7 @@ const loggedInLayout = (user) => {
     pageHeader.appendChild(headerForm)
 }
 
-const displayUser = (event) => {
-    event.preventDefault();
-}
-
-const displayPantry = (event) => {
-    event.preventDefault();
-}
-
-const displayRecipes = (event) => {
-    event.preventDefault();
-}
-
-const displaySignupForm = (event) => {
-    event.preventDefault();
-
-    document.getElementById('signupRow').removeAttribute("style")
-    document.getElementById('loginRow').style.display = "none"
-    document.getElementById('homePageContent').style.display = "none"
-}
-
+// userSignupForm DONE
 const userSignupForm = () => {
     const row = document.createElement('div')
     row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
@@ -169,6 +171,7 @@ const userSignupForm = () => {
     const cardText = document.createElement('p')
     cardText.setAttribute("class", "card-text")
     const form = document.createElement('form')
+    form.setAttribute("id", "signupForm")
     
     const firstNameGroup = document.createElement('div')
     firstNameGroup.setAttribute("class", "form-group")
@@ -178,7 +181,7 @@ const userSignupForm = () => {
     const firstNameInput = document.createElement('input')
     firstNameInput.setAttribute("class", "form-control bg-secondary text-white")
     firstNameInput.setAttribute("type", "text")
-    firstNameInput.setAttribute("name", "first_name")
+    firstNameInput.setAttribute("name", "user[first_name]")
     firstNameInput.setAttribute("id", "user_first_name")
 
     const lastNameGroup = document.createElement('div')
@@ -189,7 +192,7 @@ const userSignupForm = () => {
     const lastNameInput = document.createElement('input')
     lastNameInput.setAttribute("class", "form-control bg-secondary text-white")
     lastNameInput.setAttribute("type", "text")
-    lastNameInput.setAttribute("name", "last_name")
+    lastNameInput.setAttribute("name", "user[last_name]")
     lastNameInput.setAttribute("id", "user_last_name")
 
     const emailGroup = document.createElement('div')
@@ -200,7 +203,7 @@ const userSignupForm = () => {
     const emailInput = document.createElement('input')
     emailInput.setAttribute("class", "form-control bg-secondary text-white")
     emailInput.setAttribute("type", "text")
-    emailInput.setAttribute("name", "email")
+    emailInput.setAttribute("name", "user[email]")
     emailInput.setAttribute("id", "user_email")
 
     const passwordGroup = document.createElement('div')
@@ -211,7 +214,7 @@ const userSignupForm = () => {
     const passwordInput = document.createElement('input')
     passwordInput.setAttribute("class", "form-control bg-secondary text-white")
     passwordInput.setAttribute("type", "password")
-    passwordInput.setAttribute("name", "password")
+    passwordInput.setAttribute("name", "user[password]")
     passwordInput.setAttribute("id", "user_password_signup")
 
     const submitButton = document.createElement('input')
@@ -220,6 +223,7 @@ const userSignupForm = () => {
     submitButton.setAttribute("name", "commit")
     submitButton.setAttribute("value", "Sign Up")
     submitButton.setAttribute("data-disable-with", "Signing You Up.....")
+    submitButton.addEventListener("click", signupUser)
 
     // build firstNameGroup then attach to form
     firstNameGroup.appendChild(firstNameLabel)
@@ -252,6 +256,112 @@ const userSignupForm = () => {
     mainSection.appendChild(row)
 }
 
+// signupUser DONE
+const signupUser = (event) => {
+    event.preventDefault();
+
+    let formData = new FormData(document.getElementById('signupForm'));
+
+    const sendObject = {
+        credentials: "include",
+        method: "POST",
+        headers: {
+            // "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: formData
+    }
+
+    let userSignupResponse;
+
+    fetch(`${BASE_URL}/users`, sendObject)
+    .then(response => response.json())
+    .then(json => {
+        if (json.error) {
+            alert(json.error)
+        } else {
+            userSignupResponse = json;
+            console.log(userSignupResponse)
+            loggedInLayout(userSignupResponse)
+        }
+    })
+    .catch(console.log)
+}
+
+// loginUser DONE
+const loginUser = (event) => {
+    event.preventDefault();
+    // alert(document.getElementById('loginForm'));
+
+    let formData = new FormData(document.getElementById('loginForm'));
+    
+    const sendObject = {
+        credentials: "include",
+        method: "POST",
+        headers: {
+            // "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: formData
+    }
+
+    let jsonResponse;
+
+    fetch(`${BASE_URL}/login`, sendObject)
+    .then(response => response.json())
+    .then(json => {
+        if (json.error) {
+            alert(json.error)
+        } else {
+            jsonResponse = json;
+            console.log(jsonResponse)
+            loggedInLayout(jsonResponse)
+        }
+    })
+    .catch(console.log)
+}
+
+// logoutUser DONE
+const logoutUser = (event) => {
+    const sendObject = {
+        credentials: "include",
+        method: "DELETE",
+        headers: {
+            // "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
+    }
+
+    fetch(`${BASE_URL}/logout`, sendObject)
+    .then(response => response.json())
+    .then(json => {
+        if (json.error) {
+            alert(json.error)
+        } else {
+            document.getElementById('loggedInNav').style.display = "none"
+            homePage()
+        }
+    })
+    .catch(console.log)
+}
+
+const displayUser = (event) => {
+    event.preventDefault();
+    alert("User got Clicked!!")
+}
+
+// displaySignupForm DONE
+const displaySignupForm = (event) => {
+    event.preventDefault();
+
+    document.getElementById('signupRow').removeAttribute("style")
+    document.getElementById('loginRow').style.display = "none"
+    document.getElementById('homePageContent').style.display = "none"
+}
+
+
+
+// displayLoginForm DONE
 const displayLoginForm = (event) => {
     event.preventDefault();
 
@@ -260,6 +370,7 @@ const displayLoginForm = (event) => {
     document.getElementById('homePageContent').style.display = "none"
 }
 
+// userLoginForm DONE
 const userLoginForm = () => {
     const row = document.createElement('div')
     row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
@@ -331,34 +442,17 @@ const userLoginForm = () => {
     mainSection.appendChild(row)
 }
 
-const loginUser = (event) => {
+
+
+
+
+
+const displayRecipes = (event) => {
     event.preventDefault();
-    // alert(document.getElementById('loginForm'));
-
-    let formData = new FormData(document.getElementById('loginForm'));
-    
-    const sendObject = {
-        credentials: "include",
-        method: "POST",
-        headers: {
-            // "Content-Type": "application/json",
-            "Accept": "application/json"
-        },
-        body: formData
-    }
-
-    fetch(`${BASE_URL}/login`, sendObject)
-    .then(response => response.json())
-    .then(json => {
-        if (json.error) {
-            alert(json.error)
-        } else {
-            loggedInLayout()
-        }
-    })
-    .catch(console.log)
+    alert("Recipes got Clicked!!")
 }
 
-
-
-
+const displayPantry = (event) => {
+    event.preventDefault();
+    alert("Pantry got Clicked!!")
+}
