@@ -389,7 +389,10 @@ const displayUser = (user) => {
     const row = document.createElement('div')
     row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
     row.setAttribute("id", "userRow")
-    
+    let userRow = document.getElementById('userRow')
+    if (typeof(userRow) != 'undefined' && userRow != null) {
+        userRow.removeAttribute("style")
+    }
 
     const card = document.createElement('div')
     card.setAttribute("class", "shadow card text-white bg-dark w-50 mx-auto my-5")
@@ -454,14 +457,139 @@ const displayUser = (user) => {
 
 const updateUserForm = (event) => {
     event.preventDefault();
+    document.getElementById('userRow').style.display = "none"
+    
+    const sendObject = {
+        credentials: "include",
+        method: "GET",
+        headers: {
+            "Accept": "application/json"
+        }
+    }
 
-    alert("display Edit User form")
+    fetch(USER_URL, sendObject)
+    .then(resp => resp.json())
+    .then(function(data) {
+        let user = {
+            first_name: `${data.first_name}`,
+            last_name: `${data.last_name}`,
+            email: `${data.email}`
+        }
+        console.log(user)
+
+        
+        const row = document.createElement('div')
+        row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
+        row.style.display = "none"
+        row.setAttribute("id", "updateUserRow")
+    
+        const card = document.createElement('div')
+        card.setAttribute("class", "shadow card text-white bg-dark w-50 mx-auto my-5")
+        const cardHeader = document.createElement('h5')
+        cardHeader.setAttribute("class", "card-header text-center")
+        cardHeader.innerHTML = "Update Your Information"
+        const cardBody = document.createElement('div')
+        cardBody.setAttribute("class", "card-body")
+        const cardText = document.createElement('p')
+        cardText.setAttribute("class", "card-text")
+        const form = document.createElement('form')
+        form.setAttribute("id", "updateUserForm")
+        
+        const firstNameGroup = document.createElement('div')
+        firstNameGroup.setAttribute("class", "form-group")
+        const firstNameLabel = document.createElement('label')
+        firstNameLabel.setAttribute("for", "update_user_first_name")
+        firstNameLabel.innerHTML = "First Name"
+        const firstNameInput = document.createElement('input')
+        firstNameInput.setAttribute("class", "form-control bg-secondary text-white")
+        firstNameInput.setAttribute("type", "text")
+        firstNameInput.setAttribute("name", "user[first_name]")
+        firstNameInput.setAttribute("value", `${user.first_name}`)
+        firstNameInput.setAttribute("id", "update_user_first_name")
+    
+        const lastNameGroup = document.createElement('div')
+        lastNameGroup.setAttribute("class", "form-group")
+        const lastNameLabel = document.createElement('label')
+        lastNameLabel.setAttribute("for", "update_user_last_name")
+        lastNameLabel.innerHTML = "Last Name"
+        const lastNameInput = document.createElement('input')
+        lastNameInput.setAttribute("class", "form-control bg-secondary text-white")
+        lastNameInput.setAttribute("type", "text")
+        lastNameInput.setAttribute("name", "user[last_name]")
+        lastNameInput.setAttribute("value", `${user.last_name}`)
+        lastNameInput.setAttribute("id", "update_user_last_name")
+    
+        const emailGroup = document.createElement('div')
+        emailGroup.setAttribute("class", "form-group")
+        const emailLabel = document.createElement('label')
+        emailLabel.setAttribute("for", "update_user_email_")
+        emailLabel.innerHTML = "Email"
+        const emailInput = document.createElement('input')
+        emailInput.setAttribute("class", "form-control bg-secondary text-white")
+        emailInput.setAttribute("type", "text")
+        emailInput.setAttribute("name", "user[email]")
+        emailInput.setAttribute("value", `${user.email}`)
+        emailInput.setAttribute("id", "update_user_email")
+    
+        const passwordGroup = document.createElement('div')
+        passwordGroup.setAttribute("class", "form-group")
+        const passwordLabel = document.createElement('label')
+        passwordLabel.setAttribute("for", "update_user_password")
+        passwordLabel.innerHTML = "Password (optional)"
+        const passwordInput = document.createElement('input')
+        passwordInput.setAttribute("class", "form-control bg-secondary text-white")
+        passwordInput.setAttribute("type", "password")
+        passwordInput.setAttribute("name", "user[password]")
+        passwordInput.setAttribute("placeholder", "Enter New Password or Leave Blank for Unchanged")
+        passwordInput.setAttribute("id", "update_user_password")
+    
+        const submitButton = document.createElement('input')
+        submitButton.setAttribute("class", "btn btn-outline-info btn-block text-decoration-none")
+        submitButton.setAttribute("type", "submit")
+        submitButton.setAttribute("name", "commit")
+        submitButton.setAttribute("value", "Update My Info")
+        submitButton.setAttribute("data-disable-with", "Updating.....")
+        submitButton.addEventListener("click", updateUser)
+    
+        // build firstNameGroup then attach to form
+        firstNameGroup.appendChild(firstNameLabel)
+        firstNameGroup.appendChild(firstNameInput)
+        form.appendChild(firstNameGroup)
+        // build lastNameGroup then attach to form
+        lastNameGroup.appendChild(lastNameLabel)
+        lastNameGroup.appendChild(lastNameInput)
+        form.appendChild(lastNameGroup)
+        // build emailGroup then attach to form
+        emailGroup.appendChild(emailLabel)
+        emailGroup.appendChild(emailInput)
+        form.appendChild(emailGroup)
+        // build passwordGroup then attach to form
+        passwordGroup.appendChild(passwordLabel)
+        passwordGroup.appendChild(passwordInput)
+        form.appendChild(passwordGroup)
+        // build button then attach to form
+        form.appendChild(submitButton)
+        // attach form to cardText
+        cardText.appendChild(form)
+        // attach cardText to cardBody
+        cardBody.appendChild(cardText)
+        // attach cardHeader then cardBody to card
+        card.appendChild(cardHeader)
+        card.appendChild(cardBody)
+        // attach div to row
+        row.appendChild(card)
+        // attach row to mainSection
+        mainSection.appendChild(row)
+        // make sure the form is not hidden
+        document.getElementById('updateUserRow').removeAttribute("style")
+    })
+
 }
 
 const updateUser = (event) => {
     event.preventDefault();
 
-    // fetch to send updated user info
+    // fetch send updated user info
 
     // display current user
 }
