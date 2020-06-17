@@ -30,9 +30,6 @@ const loadPage = () => {
         }
     })
     .catch(console.log)
-
-    userLoginForm();
-    userSignupForm();
 }
 
 // homePage layout DONE
@@ -99,10 +96,10 @@ const homePage = () => {
 
 // loggedInLayout DONE
 const loggedInLayout = (user) => {
-    document.getElementById('homePageNav').style.display = "none"
-    document.getElementById('loginRow').style.display = "none"
-    document.getElementById('signupRow').style.display = "none"
-    document.getElementById('homePageForm').style.display = "none"
+    document.getElementById('homePageNav').remove()
+    document.getElementById('loginRow').remove()
+    document.getElementById('signupRow').remove()
+    document.getElementById('homePageForm').remove()
     const span = document.createElement('span')
     span.setAttribute("class", "navbar-brand mb-0 h1")
     span.setAttribute("id", "loggedInNav")
@@ -157,6 +154,15 @@ const loggedInLayout = (user) => {
     pageHeader.appendChild(navUl)
     headerForm.appendChild(logOutButton)
     pageHeader.appendChild(headerForm)
+}
+
+// displaySignupForm DONE
+const displaySignupForm = (event) => {
+    event.preventDefault();
+
+    userSignupForm();
+    document.getElementById('loginRow').remove();
+    document.getElementById('homePageContent').remove();
 }
 
 // userSignupForm DONE
@@ -277,20 +283,99 @@ const signupUser = (event) => {
         body: formData
     }
 
-    let userSignupResponse;
-
     fetch(`${BASE_URL}/users`, sendObject)
     .then(response => response.json())
     .then(json => {
         if (json.error) {
             alert(json.error)
         } else {
-            userSignupResponse = json;
-            console.log(userSignupResponse)
-            loggedInLayout(userSignupResponse)
+            userData = json;
+            globalUser = new User(userData['id'], userData['first_name'], userData['last_name'], userData['email'])
+            loggedInLayout(globalUser)
         }
     })
     .catch(console.log)
+}
+
+// displayLoginForm DONE
+const displayLoginForm = (event) => {
+    event.preventDefault();
+
+    userLoginForm();
+    document.getElementById('signupRow').remove();
+    document.getElementById('homePageContent').remove();
+}
+
+// userLoginForm DONE
+const userLoginForm = () => {
+    const row = document.createElement('div')
+    row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
+    row.style.display = "none"
+    row.setAttribute("id", "loginRow")
+
+    const card = document.createElement('div')
+    card.setAttribute("class", "shadow card text-white bg-dark w-50 mx-auto my-5")
+    const cardHeader = document.createElement('h5')
+    cardHeader.setAttribute("class", "card-header text-center")
+    cardHeader.innerHTML = "User Login"
+    const cardBody = document.createElement('div')
+    cardBody.setAttribute("class", "card-body")
+    const cardText = document.createElement('p')
+    cardText.setAttribute("class", "card-text")
+    const form = document.createElement('form')
+    form.setAttribute("id", "loginForm")
+
+    const emailGroup = document.createElement('div')
+    emailGroup.setAttribute("class", "form-group")
+    const emailLabel = document.createElement('label')
+    emailLabel.setAttribute("for", "user_email")
+    emailLabel.innerHTML = "Email"
+    const emailInput = document.createElement('input')
+    emailInput.setAttribute("class", "form-control bg-secondary text-white")
+    emailInput.setAttribute("type", "text")
+    emailInput.setAttribute("name", "email")
+    emailInput.setAttribute("id", "user_email_login")
+
+    const passwordGroup = document.createElement('div')
+    passwordGroup.setAttribute("class", "form-group")
+    const passwordLabel = document.createElement('label')
+    passwordLabel.setAttribute("for", "user_password")
+    passwordLabel.innerHTML = "Password"
+    const passwordInput = document.createElement('input')
+    passwordInput.setAttribute("class", "form-control bg-secondary text-white")
+    passwordInput.setAttribute("type", "password")
+    passwordInput.setAttribute("name", "password")
+    passwordInput.setAttribute("id", "user_password_login")
+
+    const submitButton = document.createElement('input')
+    submitButton.setAttribute("class", "btn btn-outline-info btn-block text-decoration-none")
+    submitButton.setAttribute("type", "submit")
+    submitButton.setAttribute("name", "commit")
+    submitButton.setAttribute("value", "Login")
+    submitButton.setAttribute("data-disable-with", "Logging You In.....")
+    submitButton.addEventListener("click", loginUser)
+
+    // build emailGroup then attach to form
+    emailGroup.appendChild(emailLabel)
+    emailGroup.appendChild(emailInput)
+    form.appendChild(emailGroup)
+    // build passwordGroup then attach to form
+    passwordGroup.appendChild(passwordLabel)
+    passwordGroup.appendChild(passwordInput)
+    form.appendChild(passwordGroup)
+    // build button then attach to form
+    form.appendChild(submitButton)
+    // attach form to cardText
+    cardText.appendChild(form)
+    // attach cardText to cardBody
+    cardBody.appendChild(cardText)
+    // attach cardHeader then cardBody to card
+    card.appendChild(cardHeader)
+    card.appendChild(cardBody)
+    // attach card to row
+    row.appendChild(card)
+    // attach row to mainSection
+    mainSection.appendChild(row)
 }
 
 // loginUser DONE
@@ -341,13 +426,14 @@ const logoutUser = (event) => {
         if (json.error) {
             alert(json.error)
         } else {
-            document.getElementById('loggedInNav').style.display = "none"
+            document.getElementById('loggedInNav').remove()
             homePage()
         }
     })
     .catch(console.log)
 }
 
+// User class DONE
 class User {
     id;
     first_name;
@@ -378,13 +464,11 @@ const getUser = (event) => {
 
 // displayUser DONE
 const displayUser = (user) => {
+    document.getElementById('updateUserRow').remove();
+
     const row = document.createElement('div')
     row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
     row.setAttribute("id", "userRow")
-    let userRow = document.getElementById('userRow')
-    if (typeof(userRow) != 'undefined' && userRow != null) {
-        userRow.removeAttribute("style")
-    }
 
     const card = document.createElement('div')
     card.setAttribute("class", "shadow card text-white bg-dark w-50 mx-auto my-5")
@@ -449,7 +533,7 @@ const displayUser = (user) => {
 
 const updateUserForm = (event) => {
     event.preventDefault();
-    document.getElementById('userRow').style.display = "none"
+    document.getElementById('userRow').remove();
 
     const row = document.createElement('div')
     row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
@@ -591,95 +675,11 @@ const updateUser = (event) => {
 
 }
 
-// displaySignupForm DONE
-const displaySignupForm = (event) => {
-    event.preventDefault();
 
-    document.getElementById('signupRow').removeAttribute("style")
-    document.getElementById('loginRow').style.display = "none"
-    document.getElementById('homePageContent').style.display = "none"
-}
 
-// displayLoginForm DONE
-const displayLoginForm = (event) => {
-    event.preventDefault();
 
-    document.getElementById('loginRow').removeAttribute("style")
-    document.getElementById('signupRow').style.display = "none"
-    document.getElementById('homePageContent').style.display = "none"
-}
 
-// userLoginForm DONE
-const userLoginForm = () => {
-    const row = document.createElement('div')
-    row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
-    row.style.display = "none"
-    row.setAttribute("id", "loginRow")
 
-    const card = document.createElement('div')
-    card.setAttribute("class", "shadow card text-white bg-dark w-50 mx-auto my-5")
-    const cardHeader = document.createElement('h5')
-    cardHeader.setAttribute("class", "card-header text-center")
-    cardHeader.innerHTML = "User Login"
-    const cardBody = document.createElement('div')
-    cardBody.setAttribute("class", "card-body")
-    const cardText = document.createElement('p')
-    cardText.setAttribute("class", "card-text")
-    const form = document.createElement('form')
-    form.setAttribute("id", "loginForm")
-
-    const emailGroup = document.createElement('div')
-    emailGroup.setAttribute("class", "form-group")
-    const emailLabel = document.createElement('label')
-    emailLabel.setAttribute("for", "user_email")
-    emailLabel.innerHTML = "Email"
-    const emailInput = document.createElement('input')
-    emailInput.setAttribute("class", "form-control bg-secondary text-white")
-    emailInput.setAttribute("type", "text")
-    emailInput.setAttribute("name", "email")
-    emailInput.setAttribute("id", "user_email_login")
-
-    const passwordGroup = document.createElement('div')
-    passwordGroup.setAttribute("class", "form-group")
-    const passwordLabel = document.createElement('label')
-    passwordLabel.setAttribute("for", "user_password")
-    passwordLabel.innerHTML = "Password"
-    const passwordInput = document.createElement('input')
-    passwordInput.setAttribute("class", "form-control bg-secondary text-white")
-    passwordInput.setAttribute("type", "password")
-    passwordInput.setAttribute("name", "password")
-    passwordInput.setAttribute("id", "user_password_login")
-
-    const submitButton = document.createElement('input')
-    submitButton.setAttribute("class", "btn btn-outline-info btn-block text-decoration-none")
-    submitButton.setAttribute("type", "submit")
-    submitButton.setAttribute("name", "commit")
-    submitButton.setAttribute("value", "Login")
-    submitButton.setAttribute("data-disable-with", "Logging You In.....")
-    submitButton.addEventListener("click", loginUser)
-
-    // build emailGroup then attach to form
-    emailGroup.appendChild(emailLabel)
-    emailGroup.appendChild(emailInput)
-    form.appendChild(emailGroup)
-    // build passwordGroup then attach to form
-    passwordGroup.appendChild(passwordLabel)
-    passwordGroup.appendChild(passwordInput)
-    form.appendChild(passwordGroup)
-    // build button then attach to form
-    form.appendChild(submitButton)
-    // attach form to cardText
-    cardText.appendChild(form)
-    // attach cardText to cardBody
-    cardBody.appendChild(cardText)
-    // attach cardHeader then cardBody to card
-    card.appendChild(cardHeader)
-    card.appendChild(cardBody)
-    // attach card to row
-    row.appendChild(card)
-    // attach row to mainSection
-    mainSection.appendChild(row)
-}
 
 
 
