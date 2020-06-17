@@ -160,16 +160,29 @@ const loggedInLayout = (user) => {
 const displaySignupForm = (event) => {
     event.preventDefault();
 
-    userSignupForm();
-    document.getElementById('loginRow').remove();
-    document.getElementById('homePageContent').remove();
+    const signupRow = document.getElementById('signupRow')
+    if (!signupRow) {
+        userSignupForm();
+    } else {
+        signupRow.remove();
+        userSignupForm();
+    }
+
+    const loginRow = document.getElementById('loginRow')
+    if (!!loginRow) {
+        loginRow.remove();
+    }
+
+    const homePageContent = document.getElementById('homePageContent')
+    if (!!homePageContent) {
+        homePageContent.remove();
+    }
 }
 
 // userSignupForm DONE
 const userSignupForm = () => {
     const row = document.createElement('div')
     row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
-    row.style.display = "none"
     row.setAttribute("id", "signupRow")
 
     const card = document.createElement('div')
@@ -301,16 +314,29 @@ const signupUser = (event) => {
 const displayLoginForm = (event) => {
     event.preventDefault();
 
-    userLoginForm();
-    document.getElementById('signupRow').remove();
-    document.getElementById('homePageContent').remove();
+    const loginRow = document.getElementById('loginRow')
+    if (!loginRow) {
+        userLoginForm();
+    } else {
+        loginRow.remove();
+        userLoginForm();
+    }
+
+    const signUpRow = document.getElementById('signupRow')
+    if (!!signUpRow) {
+        signUpRow.remove();
+    }
+
+    const homePageContent = document.getElementById('homePageContent')
+    if (!!homePageContent) {
+        homePageContent.remove();
+    }
 }
 
 // userLoginForm DONE
 const userLoginForm = () => {
     const row = document.createElement('div')
     row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
-    row.style.display = "none"
     row.setAttribute("id", "loginRow")
 
     const card = document.createElement('div')
@@ -447,6 +473,10 @@ class User {
         this.email = email;
     }
 }
+
+
+
+
 
 // getUser DONE
 const getUser = (event) => {
