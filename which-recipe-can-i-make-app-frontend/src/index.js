@@ -96,10 +96,18 @@ const homePage = () => {
 
 // loggedInLayout DONE
 const loggedInLayout = (user) => {
-    document.getElementById('homePageNav').remove()
-    document.getElementById('loginRow').remove()
-    document.getElementById('signupRow').remove()
-    document.getElementById('homePageForm').remove()
+    const homePageNav = document.getElementById('homePageNav')
+    if (!!homePageNav) { homePageNav.remove() }
+
+    const loginRow = document.getElementById('loginRow')
+    if (!!loginRow) { loginRow.remove() }
+
+    const signUpRow = document.getElementById('signupRow')
+    if (!!signUpRow) { signUpRow.remove() }
+
+    const homePageForm = document.getElementById('homePageForm')
+    if (!!homePageForm) { homePageForm.remove() }
+
     const span = document.createElement('span')
     span.setAttribute("class", "navbar-brand mb-0 h1")
     span.setAttribute("id", "loggedInNav")
@@ -126,7 +134,7 @@ const loggedInLayout = (user) => {
     pantryLink.setAttribute("href", "#")
     pantryLink.setAttribute("id", "displayPantryLink")
     pantryLink.innerHTML = "Pantry"
-    pantryLink.addEventListener("click", displayPantry)
+    pantryLink.addEventListener("click", getPantry)
     pantryLi.appendChild(pantryLink)
     navUl.appendChild(pantryLi)
 
@@ -137,7 +145,7 @@ const loggedInLayout = (user) => {
     recipesLink.setAttribute("href", "#")
     recipesLink.setAttribute("id", "displayRecipesLink")
     recipesLink.innerHTML = "Recipes"
-    recipesLink.addEventListener("click", displayRecipes)
+    recipesLink.addEventListener("click", getRecipes)
     recipesLi.appendChild(recipesLink)
     navUl.appendChild(recipesLi)
 
@@ -489,12 +497,22 @@ const getUser = (event) => {
     document.getElementById('displayRecipesLink').removeAttribute("class")
     document.getElementById('displayRecipesLink').setAttribute("class", "nav-link text-secondary")
 
-    displayUser(globalUser)
+    const userRow = document.getElementById('userRow')
+    if (!userRow) {
+        displayUser(globalUser);
+    } else {
+        userRow.remove();
+        displayUser(globalUser);
+    }
+
+    const updateUserRow = document.getElementById('updateUserRow')
+    if (!!updateUserRow) {
+        updateUserRow.remove();
+    }
 }
 
 // displayUser DONE
 const displayUser = (user) => {
-    document.getElementById('updateUserRow').remove();
 
     const row = document.createElement('div')
     row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
@@ -716,7 +734,7 @@ const updateUser = (event) => {
 
 
 
-const displayRecipes = (event) => {
+const getRecipes = (event) => {
     event.preventDefault();
 
     document.getElementById('displayUserLink').removeAttribute("class")
@@ -727,7 +745,7 @@ const displayRecipes = (event) => {
     document.getElementById('displayRecipesLink').setAttribute("class", "nav-link text-info")
 }
 
-const displayPantry = (event) => {
+const getPantry = (event) => {
     event.preventDefault();
 
     document.getElementById('displayUserLink').removeAttribute("class")
