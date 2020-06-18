@@ -746,8 +746,121 @@ const updateUser = (event) => {
 
 }
 
+// getPantry in PROGRESS
+const getPantry = (event) => {
+    event.preventDefault();
 
+    document.getElementById('displayUserLink').removeAttribute("class")
+    document.getElementById('displayUserLink').setAttribute("class", "nav-link text-secondary text-capitalize")
+    document.getElementById('displayPantryLink').removeAttribute("class")
+    document.getElementById('displayPantryLink').setAttribute("class", "nav-link text-info")
+    document.getElementById('displayRecipesLink').removeAttribute("class")
+    document.getElementById('displayRecipesLink').setAttribute("class", "nav-link text-secondary")
 
+    // get the pantry items with a fetch request
+}
+
+const displayPantry = () => {
+    const row = document.createElement('div')
+    row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
+    row.setAttribute("id", "pantryRow")
+
+    const card = document.createElement('div')
+    card.setAttribute("class", "shadow card text-white bg-dark w-50 mx-auto my-5")
+    const cardHeader = document.createElement('h5')
+    cardHeader.setAttribute("class", "card-header text-center")
+    cardHeader.innerHTML = "Your Pantry"
+    const cardBody = document.createElement('div')
+    cardBody.setAttribute("class", "card-body")
+    const cardText = document.createElement('p')
+    cardText.setAttribute("class", "card-text")
+    cardText.setAttribute("id", "pantryCardText")
+
+    const pantyList = document.createElement('table')
+    pantyList.setAttribute("class", "table table-sm table-hover table-dark")
+    pantyList.setAttribute("id", "pantryList")
+    const tableHead = document.createElement('thead')
+    tableHead.setAttribute("class", "thead-dark")
+    const tableRow = document.createElement('tr')
+    const itemHeader = document.createElement('th')
+    itemHeader.innerText = "Item Description"
+    const quantityHeader = document.createElement('th')
+    quantityHeader.innerText = "Quantity"
+    const editItemHeader = document.createElement('th')
+    quantityHeader.innerText = "Edit Item"
+    const deleteItemHeader = document.createElement('th')
+    quantityHeader.innerText = "Delete Item"
+    tableHead.appendChild(itemHeader)
+    tableHead.appendChild(quantityHeader)
+    tableHead.appendChild(editItemHeader)
+    tableHead.appendChild(deleteItemHeader)
+    pantyList.appendChild(tableHead)
+    cardText.appendChild(pantyList)
+
+    const pantryForm = document.createElement('form')
+    headerForm.setAttribute("class", "form-inline mx-auto")
+    headerForm.setAttribute("id", "pantryForm")
+
+    const formRow = document.createElement('div')
+    formRow.setAttribute("class", "form-row")
+    formRow.setAttribute("id", "formRow")
+
+    const itemGroup = document.createElement('div')
+    itemGroup.setAttribute("class", "form-group col")
+    const itemLabel = document.createElement('label')
+    itemLabel.setAttribute("for", "pantry_item_name")
+    itemLabel.innerHTML = "Item"
+    const itemInput = document.createElement('input')
+    itemInput.setAttribute("class", "form-control bg-secondary text-white")
+    itemInput.setAttribute("type", "text")
+    itemInput.setAttribute("name", "name")
+    itemInput.setAttribute("id", "pantry_item_name")
+    itemGroup.appendChild(itemLabel)
+    itemGroup.appendChild(itemInput)
+    formRow.appendChild(itemGroup)
+
+    const quantityGroup = document.createElement('div')
+    quantityGroup.setAttribute("class", "form-group col")
+    const quantityLabel = document.createElement('label')
+    quantityLabel.setAttribute("for", "pantry_item_quantity")
+    quantityLabel.innerHTML = "Quantity"
+    const quantityInput = document.createElement('input')
+    quantityInput.setAttribute("class", "form-control bg-secondary text-white")
+    quantityInput.setAttribute("type", "text")
+    quantityInput.setAttribute("name", "quantity")
+    quantityInput.setAttribute("id", "pantry_item_quantity")
+    quantityGroup.appendChild(quantityLabel)
+    quantityGroup.appendChild(quantityInput)
+    formRow.appendChild(quantityGroup)
+
+    const submitGroup = document.createElement('div')
+    submitGroup.setAttribute("class", "form-group col")
+    const submitButton = document.createElement('input')
+    submitButton.setAttribute("class", "btn btn-outline-info btn-block text-decoration-none")
+    submitButton.setAttribute("type", "submit")
+    submitButton.setAttribute("name", "commit")
+    submitButton.setAttribute("value", "Add")
+    submitButton.setAttribute("data-disable-with", "Adding Item.....")
+    submitButton.addEventListener("click", listPantryItems)
+    submitGroup.appendChild(submitButton)
+    formRow.appendChild(submitGroup)
+
+    // attach cardText to cardBody
+    cardBody.appendChild(cardText)
+    // attach cardHeader then cardBody to card
+    card.appendChild(cardHeader)
+    card.appendChild(cardBody)
+    // attach div to row
+    row.appendChild(card)
+    // attach row to mainSection
+    mainSection.appendChild(row)
+}
+
+const listPantryItems = () => {
+    const pantryUl = document.getElementById('pantryList')
+    // list Pantry Items in List Item
+    // attach to pantryUl
+}
 
 
 
@@ -768,13 +881,4 @@ const getRecipes = (event) => {
     document.getElementById('displayRecipesLink').setAttribute("class", "nav-link text-info")
 }
 
-const getPantry = (event) => {
-    event.preventDefault();
 
-    document.getElementById('displayUserLink').removeAttribute("class")
-    document.getElementById('displayUserLink').setAttribute("class", "nav-link text-secondary text-capitalize")
-    document.getElementById('displayPantryLink').removeAttribute("class")
-    document.getElementById('displayPantryLink').setAttribute("class", "nav-link text-info")
-    document.getElementById('displayRecipesLink').removeAttribute("class")
-    document.getElementById('displayRecipesLink').setAttribute("class", "nav-link text-secondary")
-}
