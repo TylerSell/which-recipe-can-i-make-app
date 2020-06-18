@@ -8,7 +8,7 @@ class PantryItemsController < ApplicationController
     
     def create 
         user = current_user
-        pantry_item = user.pantry_item.build(pantry_item_params)
+        pantry_item = user.pantry_items.build(pantry_item_params)
 
         render json: pantry_item.save ? pantry_item : {error: 'Something went wrong please try again'}
     end

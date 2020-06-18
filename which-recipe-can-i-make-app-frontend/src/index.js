@@ -764,7 +764,7 @@ const updateUser = (event) => {
 
 }
 
-// getPantry in PROGRESS
+// getPantry DONE
 const getPantry = (event) => {
     if (event) {
         event.preventDefault();
@@ -799,6 +799,8 @@ const getPantry = (event) => {
 
     // display the pantry
     displayPantry();
+    document.getElementById('pantryForm').reset();
+
     // get the pantry items with a fetch request
     const sendObject = {
         credentials: "include",
@@ -816,6 +818,7 @@ const getPantry = (event) => {
     })
 }
 
+// displayPantry DONE
 const displayPantry = () => {
     const row = document.createElement('div')
     row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
@@ -865,6 +868,11 @@ const displayPantry = () => {
     formRow.setAttribute("class", "form-row")
     formRow.setAttribute("id", "formRow")
 
+    const hiddenField = document.createElement('input')
+    hiddenField.setAttribute("type", "hidden")
+    hiddenField.setAttribute("name", "pantry_item[user_id]")
+    hiddenField.setAttribute("value", `${globalUser.id}`)
+
     const itemGroup = document.createElement('div')
     itemGroup.setAttribute("class", "form-group col")
     const itemLabel = document.createElement('label')
@@ -873,7 +881,7 @@ const displayPantry = () => {
     const itemInput = document.createElement('input')
     itemInput.setAttribute("class", "form-control bg-secondary text-white")
     itemInput.setAttribute("type", "text")
-    itemInput.setAttribute("name", "name")
+    itemInput.setAttribute("name", "pantry_item[name]")
     itemInput.setAttribute("id", "pantry_item_name")
     itemGroup.appendChild(itemLabel)
     itemGroup.appendChild(itemInput)
@@ -887,7 +895,7 @@ const displayPantry = () => {
     const quantityInput = document.createElement('input')
     quantityInput.setAttribute("class", "form-control bg-secondary text-white")
     quantityInput.setAttribute("type", "text")
-    quantityInput.setAttribute("name", "quantity")
+    quantityInput.setAttribute("name", "pantry_item[quantity]")
     quantityInput.setAttribute("id", "pantry_item_quantity")
     quantityGroup.appendChild(quantityLabel)
     quantityGroup.appendChild(quantityInput)
@@ -901,8 +909,8 @@ const displayPantry = () => {
     const submitButton = document.createElement('input')
     submitButton.setAttribute("class", "btn btn-outline-info btn-block text-decoration-none")
     submitButton.setAttribute("type", "submit")
-    submitButton.setAttribute("name", "commit")
-    submitButton.setAttribute("value", "Add")
+    submitButton.setAttribute("name", "submit")
+    submitButton.setAttribute("value", "Add Item")
     submitButton.setAttribute("data-disable-with", "Adding Item.....")
     submitButton.addEventListener("click", addPantryItem)
     submitGroup.appendChild(submitLabel)
@@ -922,10 +930,12 @@ const displayPantry = () => {
     mainSection.appendChild(row)
 }
 
+// listPantryItem DONE
 const listPantryItem = (item) => {
     const pantryTableBody = document.getElementById('pantryTableBody')
     // list Pantry Items in List Item
     const pantryRow = document.createElement('tr')
+    pantryRow.setAttribute("id", `${item.id}`)
     const itemName = document.createElement('td')
     itemName.innerHTML = `${item['name']}`
     const itemQuantity = document.createElement('td')
@@ -963,7 +973,29 @@ const listPantryItem = (item) => {
 const addPantryItem = (event) => {
     event.preventDefault();
 
+    let formData = new FormData(document.getElementById('pantryForm'))
 
+    // fetch send updated user info
+    const sendObject = {
+        credentials: "include",
+        method: "POST",
+        headers: {
+            // "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: formData
+    }
+
+    fetch(`${BASE_URL}/users/${globalUser.id}/pantry_items`, sendObject)
+    .then(response => response.json())
+    .then(json => {
+        if (json.error) {
+            alert(json.error)
+        } else {
+            getPantry()
+        }
+    })
+    .catch(console.log)
 }
 
 const editPantryItem = (event) => {
@@ -972,6 +1004,8 @@ const editPantryItem = (event) => {
 
 }
 
+// deletePantry item 'Failed load fetch'
+// but still deletes and completes function
 const deletePantryItem = (event) => {
     event.preventDefault();
 
