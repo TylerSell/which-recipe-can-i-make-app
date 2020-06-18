@@ -115,6 +115,7 @@ const loggedInLayout = (user) => {
 
     const navUl = document.createElement('ul')
     navUl.setAttribute("class", "nav mr-auto")
+    navUl.setAttribute("id", "navUl")
 
     const userLi = document.createElement('li')
     userLi.setAttribute("class", "nav-item")
@@ -151,6 +152,7 @@ const loggedInLayout = (user) => {
 
     const headerForm = document.createElement('form')
     headerForm.setAttribute("class", "form-inline ml-auto")
+    headerForm.setAttribute("id", "loggedInHeaderForm")
     
     const logOutButton = document.createElement('button')
     logOutButton.setAttribute("id", "logOutButton")
@@ -482,10 +484,6 @@ class User {
     }
 }
 
-
-
-
-
 // getUser DONE
 const getUser = (event) => {
     event.preventDefault();
@@ -512,7 +510,7 @@ const getUser = (event) => {
 }
 
 // displayUser DONE
-const displayUser = (user) => {
+const displayUser = (globalUser) => {
 
     const row = document.createElement('div')
     row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
@@ -537,7 +535,7 @@ const displayUser = (user) => {
     const nameHeading = document.createElement('strong')
     nameHeading.innerText = "Name: "
     nameP.appendChild(nameHeading)
-    nameP.insertAdjacentText("beforeend", `${user['first_name']} ${user['last_name']}`)
+    nameP.insertAdjacentText("beforeend", `${globalUser.first_name} ${globalUser.last_name}`)
     nameCol.appendChild(nameP)
     nameRow.appendChild(nameCol)
     cardText.appendChild(nameRow)
@@ -551,7 +549,7 @@ const displayUser = (user) => {
     const emailStrong = document.createElement('strong')
     emailStrong.innerText = "Email: "
     emailP.appendChild(emailStrong)
-    emailP.insertAdjacentText("beforeend", `${user['email']}`)
+    emailP.insertAdjacentText("beforeend", `${globalUser.email}`)
     emailCol.appendChild(emailP)
     emailRow.appendChild(emailCol)
     cardText.appendChild(emailRow)
@@ -563,7 +561,7 @@ const displayUser = (user) => {
     const editButton = document.createElement('button')
     editButton.setAttribute("class", "btn btn-outline-warning btn-block")
     editButton.innerText = "Edit Your Info"
-    editButton.addEventListener("click", updateUserForm)
+    editButton.addEventListener("click", getUpdateUser)
     editButtonCol.appendChild(editButton)
     editButtonRow.appendChild(editButtonCol)
     cardText.appendChild(editButtonRow)
@@ -579,13 +577,28 @@ const displayUser = (user) => {
     mainSection.appendChild(row)
 }
 
-const updateUserForm = (event) => {
+// getUpdateUser DONE
+const getUpdateUser = (event) => {
     event.preventDefault();
-    document.getElementById('userRow').remove();
 
+    const updateUserRow = document.getElementById('updateUserRow')
+    if (!updateUserRow) {
+        displayUpdateUser(globalUser);
+    } else {
+        updateUserRow.remove();
+        displayUpdateUser(globalUser);
+    }
+
+    const userRow = document.getElementById('userRow')
+    if (!!userRow) {
+        userRow.remove();
+    }
+}
+
+// displayUpdateUser DONE
+const displayUpdateUser = (globalUser) => {
     const row = document.createElement('div')
     row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
-    row.style.display = "none"
     row.setAttribute("id", "updateUserRow")
 
     const card = document.createElement('div')
@@ -685,10 +698,9 @@ const updateUserForm = (event) => {
     row.appendChild(card)
     // attach row to mainSection
     mainSection.appendChild(row)
-    // make sure the form is not hidden
-    document.getElementById('updateUserRow').removeAttribute("style")
 }
 
+// updateUser DONE
 const updateUser = (event) => {
     event.preventDefault();
     
@@ -715,8 +727,19 @@ const updateUser = (event) => {
             globalUser.first_name = userData['first_name']
             globalUser.last_name = userData['last_name']
             globalUser.email = userData['email']
+            document.getElementById('loggedInNav').remove();
+            document.getElementById('navUl').remove();
+            document.getElementById('loggedInHeaderForm').remove();
+            document.getElementById('updateUserRow').remove();
+            loggedInLayout(globalUser)
+            document.getElementById('displayUserLink').removeAttribute("class")
+            document.getElementById('displayUserLink').setAttribute("class", "nav-link text-info text-capitalize")
+            document.getElementById('displayPantryLink').removeAttribute("class")
+            document.getElementById('displayPantryLink').setAttribute("class", "nav-link text-secondary")
+            document.getElementById('displayRecipesLink').removeAttribute("class")
+            document.getElementById('displayRecipesLink').setAttribute("class", "nav-link text-secondary")
             // display updated current user
-            displayUser(globalUser)
+            displayUser(globalUser);
         }
     })
     .catch(console.log)
