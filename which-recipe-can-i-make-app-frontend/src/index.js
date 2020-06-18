@@ -4,6 +4,7 @@ const RECIPES_URL = `${BASE_URL}/recipes`
 const mainSection = document.querySelector('main')
 const pageHeader = document.getElementById('header')
 let globalUser;
+let globalRecipes;
 
 document.addEventListener("DOMContentLoaded", () => loadPage())
 
@@ -942,8 +943,8 @@ const listPantryItem = (item) => {
     const deleteButton = document.createElement('button')
     deleteButton.setAttribute("class", "btn btn-outline-danger btn-block text-decoration-none")
     deleteButton.setAttribute("type", "submit")
-    deleteButton.setAttribute("name", "edit")
-    deleteButton.setAttribute("value", "Edit")
+    deleteButton.setAttribute("name", "delete")
+    deleteButton.setAttribute("value", "Delete")
     deleteButton.innerHTML = "Delete"
     deleteButton.setAttribute("data-disable-with", "Deleting Item.....")
     deleteButton.setAttribute("data-pantry-item-id", item.id)
@@ -952,7 +953,6 @@ const listPantryItem = (item) => {
     // attach to pantryTableBody
     pantryRow.appendChild(itemName)
     pantryRow.appendChild(itemQuantity)
-    pantryRow.appendChild(editCell)
     pantryRow.appendChild(deleteCell)
     pantryTableBody.appendChild(pantryRow)
 }
@@ -986,8 +986,11 @@ const addPantryItem = (event) => {
     .catch(console.log)
 }
 
+// deletePantryItem DONE
 // deletePantry item 'Failed load fetch'
 // but still deletes and completes function
+// researched and this only shows error/failed load in Chrome
+// shows this error only when response is empty as in a delete request
 const deletePantryItem = (event) => {
     event.preventDefault();
 
@@ -1000,19 +1003,15 @@ const deletePantryItem = (event) => {
     }
 
     fetch(`${BASE_URL}/users/${globalUser.id}/pantry_items/${event.target.dataset.pantryItemId}`, sendObject)
+    .catch(console.log)
     getPantry();
 }
 
-
-
-
-
-
-
-
-
+// IN PROGRESS
 const getRecipes = (event) => {
-    event.preventDefault();
+    if (event) {
+        event.preventDefault();
+    }
 
     document.getElementById('displayUserLink').removeAttribute("class")
     document.getElementById('displayUserLink').setAttribute("class", "nav-link text-secondary text-capitalize")
@@ -1020,6 +1019,56 @@ const getRecipes = (event) => {
     document.getElementById('displayPantryLink').setAttribute("class", "nav-link text-secondary")
     document.getElementById('displayRecipesLink').removeAttribute("class")
     document.getElementById('displayRecipesLink').setAttribute("class", "nav-link text-info")
+
+    const updateUserRow = document.getElementById('updateUserRow')
+    if (!!updateUserRow) {
+        updateUserRow.remove();
+    }
+
+    const userRow = document.getElementById('userRow')
+    if (!!userRow) {
+        userRow.remove();
+    }
+
+    const pantryRow = document.getElementById('pantryRow')
+    if (!!pantryRow) {
+        pantryRow.remove();
+    }
+
+    const recipesRow = document.getElementById('recipesRow')
+    if (!!recipesRow) {
+        recipesRow.remove();
+    }
+
+    // display recipes
+    displayRecipes();
+
+    // get the recipes with a fetch request
+    const sendObject = {
+        credentials: "include",
+        method: "GET",
+        headers: {
+            "Accept": "application/json"
+        }
+    }
+
+    fetch(`${BASE_URL}/users/${globalUser.id}/recipes`, sendObject)
+    .then(resp => resp.json())
+    // list recipes
+    .then(json => {
+        // console.log(json)
+        json.forEach(recipe => listRecipes(recipe))
+    })
+}
+
+
+const displayRecipes = () => {
+
+}
+
+
+const listRecipes = (recipe) => {
+
 }
 
 
