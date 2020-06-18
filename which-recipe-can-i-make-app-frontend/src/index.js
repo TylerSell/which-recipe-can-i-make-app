@@ -17,8 +17,6 @@ const loadPage = () => {
         }
     }
 
-    let user;
-
     fetch(USER_URL, sendObject)
     .then(resp => resp.json())
     .then(json => {
@@ -768,7 +766,9 @@ const updateUser = (event) => {
 
 // getPantry in PROGRESS
 const getPantry = (event) => {
-    event.preventDefault();
+    if (event) {
+        event.preventDefault();
+    }
 
     document.getElementById('displayUserLink').removeAttribute("class")
     document.getElementById('displayUserLink').setAttribute("class", "nav-link text-secondary text-capitalize")
@@ -797,10 +797,23 @@ const getPantry = (event) => {
         recipesRow.remove();
     }
 
+    // display the pantry
     displayPantry();
     // get the pantry items with a fetch request
-    // display the pantry
+    const sendObject = {
+        credentials: "include",
+        method: "GET",
+        headers: {
+            "Accept": "application/json"
+        }
+    }
+
+    fetch(`${BASE_URL}/users/${globalUser.id}/pantry_items`, sendObject)
+    .then(resp => resp.json())
     // list pantry items
+    .then(json => {
+        json.forEach(item => listPantryItem(item))
+    })
 }
 
 const displayPantry = () => {
@@ -824,20 +837,24 @@ const displayPantry = () => {
     pantyList.setAttribute("id", "pantryList")
     const tableHead = document.createElement('thead')
     tableHead.setAttribute("class", "thead-dark")
+    const tableBody = document.createElement('tbody')
+    tableBody.setAttribute("id", "pantryTableBody")
     const tableRow = document.createElement('tr')
     const itemHeader = document.createElement('th')
     itemHeader.innerText = "Item Description"
     const quantityHeader = document.createElement('th')
     quantityHeader.innerText = "Quantity"
     const editItemHeader = document.createElement('th')
-    quantityHeader.innerText = "Edit Item"
+    editItemHeader.innerText = "Edit Item"
     const deleteItemHeader = document.createElement('th')
-    quantityHeader.innerText = "Delete Item"
-    tableHead.appendChild(itemHeader)
-    tableHead.appendChild(quantityHeader)
-    tableHead.appendChild(editItemHeader)
-    tableHead.appendChild(deleteItemHeader)
+    deleteItemHeader.innerText = "Delete Item"
+    tableRow.appendChild(itemHeader)
+    tableRow.appendChild(quantityHeader)
+    tableRow.appendChild(editItemHeader)
+    tableRow.appendChild(deleteItemHeader)
+    tableHead.appendChild(tableRow)
     pantyList.appendChild(tableHead)
+    pantyList.appendChild(tableBody)
     cardText.appendChild(pantyList)
 
     const pantryForm = document.createElement('form')
@@ -905,16 +922,69 @@ const displayPantry = () => {
     mainSection.appendChild(row)
 }
 
-const listPantryItems = (items) => {
-    const pantryUl = document.getElementById('pantryList')
+const listPantryItem = (item) => {
+    const pantryTableBody = document.getElementById('pantryTableBody')
     // list Pantry Items in List Item
-    // attach to pantryUl
+    const pantryRow = document.createElement('tr')
+    const itemName = document.createElement('td')
+    itemName.innerHTML = `${item['name']}`
+    const itemQuantity = document.createElement('td')
+    itemQuantity.innerHTML = `${item['quantity']}`
+    const editCell = document.createElement('td')
+    const editButton = document.createElement('button')
+    editButton.setAttribute("class", "btn btn-outline-warning btn-block text-decoration-none")
+    editButton.setAttribute("type", "submit")
+    editButton.setAttribute("name", "edit")
+    editButton.setAttribute("value", "Edit")
+    editButton.innerHTML = "Edit"
+    editButton.setAttribute("data-disable-with", "Edit Item.....")
+    editButton.setAttribute("data-pantry-item-id", item.id)
+    editButton.addEventListener("click", editPantryItem)
+    editCell.appendChild(editButton)
+    const deleteCell = document.createElement('td')
+    const deleteButton = document.createElement('button')
+    deleteButton.setAttribute("class", "btn btn-outline-danger btn-block text-decoration-none")
+    deleteButton.setAttribute("type", "submit")
+    deleteButton.setAttribute("name", "edit")
+    deleteButton.setAttribute("value", "Edit")
+    deleteButton.innerHTML = "Delete"
+    deleteButton.setAttribute("data-disable-with", "Deleting Item.....")
+    deleteButton.setAttribute("data-pantry-item-id", item.id)
+    deleteButton.addEventListener("click", deletePantryItem)
+    deleteCell.appendChild(deleteButton)
+    // attach to pantryTableBody
+    pantryRow.appendChild(itemName)
+    pantryRow.appendChild(itemQuantity)
+    pantryRow.appendChild(editCell)
+    pantryRow.appendChild(deleteCell)
+    pantryTableBody.appendChild(pantryRow)
 }
 
 const addPantryItem = (event) => {
     event.preventDefault();
 
 
+}
+
+const editPantryItem = (event) => {
+    event.preventDefault();
+
+
+}
+
+const deletePantryItem = (event) => {
+    event.preventDefault();
+
+    const sendObject = {
+        credentials: "include",
+        method: "DELETE",
+        headers: {
+            "Accept": "application/json"
+        }
+    }
+
+    fetch(`${BASE_URL}/users/${globalUser.id}/pantry_items/${event.target.dataset.pantryItemId}`, sendObject)
+    getPantry();
 }
 
 
