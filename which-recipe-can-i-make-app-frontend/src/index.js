@@ -847,13 +847,10 @@ const displayPantry = () => {
     itemHeader.innerText = "Item Description"
     const quantityHeader = document.createElement('th')
     quantityHeader.innerText = "Quantity"
-    const editItemHeader = document.createElement('th')
-    editItemHeader.innerText = "Edit Item"
     const deleteItemHeader = document.createElement('th')
     deleteItemHeader.innerText = "Delete Item"
     tableRow.appendChild(itemHeader)
     tableRow.appendChild(quantityHeader)
-    tableRow.appendChild(editItemHeader)
     tableRow.appendChild(deleteItemHeader)
     tableHead.appendChild(tableRow)
     pantyList.appendChild(tableHead)
@@ -940,17 +937,7 @@ const listPantryItem = (item) => {
     itemName.innerHTML = `${item['name']}`
     const itemQuantity = document.createElement('td')
     itemQuantity.innerHTML = `${item['quantity']}`
-    const editCell = document.createElement('td')
-    const editButton = document.createElement('button')
-    editButton.setAttribute("class", "btn btn-outline-warning btn-block text-decoration-none")
-    editButton.setAttribute("type", "submit")
-    editButton.setAttribute("name", "edit")
-    editButton.setAttribute("value", "Edit")
-    editButton.innerHTML = "Edit"
-    editButton.setAttribute("data-disable-with", "Edit Item.....")
-    editButton.setAttribute("data-pantry-item-id", item.id)
-    editButton.addEventListener("click", editPantryItem)
-    editCell.appendChild(editButton)
+
     const deleteCell = document.createElement('td')
     const deleteButton = document.createElement('button')
     deleteButton.setAttribute("class", "btn btn-outline-danger btn-block text-decoration-none")
@@ -970,6 +957,7 @@ const listPantryItem = (item) => {
     pantryTableBody.appendChild(pantryRow)
 }
 
+// addPantryItem DONE
 const addPantryItem = (event) => {
     event.preventDefault();
 
@@ -996,12 +984,6 @@ const addPantryItem = (event) => {
         }
     })
     .catch(console.log)
-}
-
-const editPantryItem = (event) => {
-    event.preventDefault();
-
-
 }
 
 // deletePantry item 'Failed load fetch'

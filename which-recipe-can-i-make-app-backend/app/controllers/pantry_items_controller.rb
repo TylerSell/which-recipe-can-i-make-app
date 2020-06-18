@@ -13,15 +13,6 @@ class PantryItemsController < ApplicationController
         render json: pantry_item.save ? pantry_item : {error: 'Something went wrong please try again'}
     end
 
-    def update 
-        pantry_item = PantryItem.find_by(id: params[:id])
-        if pantry_item.update(pantry_item_params)
-            render json: pantry_item
-        else 
-            render json: {error: 'Something went wrong and your changes were not saved. Please try again.'}
-        end
-    end 
-
     def destroy
         pantry_item = PantryItem.find_by(id: params[:id])
         pantry_item.destroy
