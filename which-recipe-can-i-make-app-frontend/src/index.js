@@ -507,6 +507,16 @@ const getUser = (event) => {
     if (!!updateUserRow) {
         updateUserRow.remove();
     }
+
+    const pantryRow = document.getElementById('pantryRow')
+    if (!!pantryRow) {
+        pantryRow.remove();
+    }
+
+    const recipesRow = document.getElementById('recipesRow')
+    if (!!recipesRow) {
+        recipesRow.remove();
+    }
 }
 
 // displayUser DONE
@@ -592,6 +602,16 @@ const getUpdateUser = (event) => {
     const userRow = document.getElementById('userRow')
     if (!!userRow) {
         userRow.remove();
+    }
+
+    const pantryRow = document.getElementById('pantryRow')
+    if (!!pantryRow) {
+        pantryRow.remove();
+    }
+
+    const recipesRow = document.getElementById('recipesRow')
+    if (!!recipesRow) {
+        recipesRow.remove();
     }
 }
 
@@ -757,7 +777,30 @@ const getPantry = (event) => {
     document.getElementById('displayRecipesLink').removeAttribute("class")
     document.getElementById('displayRecipesLink').setAttribute("class", "nav-link text-secondary")
 
+    const updateUserRow = document.getElementById('updateUserRow')
+    if (!!updateUserRow) {
+        updateUserRow.remove();
+    }
+
+    const userRow = document.getElementById('userRow')
+    if (!!userRow) {
+        userRow.remove();
+    }
+
+    const pantryRow = document.getElementById('pantryRow')
+    if (!!pantryRow) {
+        pantryRow.remove();
+    }
+
+    const recipesRow = document.getElementById('recipesRow')
+    if (!!recipesRow) {
+        recipesRow.remove();
+    }
+
+    displayPantry();
     // get the pantry items with a fetch request
+    // display the pantry
+    // list pantry items
 }
 
 const displayPantry = () => {
@@ -798,8 +841,8 @@ const displayPantry = () => {
     cardText.appendChild(pantyList)
 
     const pantryForm = document.createElement('form')
-    headerForm.setAttribute("class", "form-inline mx-auto")
-    headerForm.setAttribute("id", "pantryForm")
+    pantryForm.setAttribute("class", "mx-auto")
+    pantryForm.setAttribute("id", "pantryForm")
 
     const formRow = document.createElement('div')
     formRow.setAttribute("class", "form-row")
@@ -835,16 +878,22 @@ const displayPantry = () => {
 
     const submitGroup = document.createElement('div')
     submitGroup.setAttribute("class", "form-group col")
+    const submitLabel = document.createElement('label')
+    submitLabel.setAttribute("for", "pantry_item_submit")
+    submitLabel.innerHTML = "&nbsp;"
     const submitButton = document.createElement('input')
     submitButton.setAttribute("class", "btn btn-outline-info btn-block text-decoration-none")
     submitButton.setAttribute("type", "submit")
     submitButton.setAttribute("name", "commit")
     submitButton.setAttribute("value", "Add")
     submitButton.setAttribute("data-disable-with", "Adding Item.....")
-    submitButton.addEventListener("click", listPantryItems)
+    submitButton.addEventListener("click", addPantryItem)
+    submitGroup.appendChild(submitLabel)
     submitGroup.appendChild(submitButton)
     formRow.appendChild(submitGroup)
 
+    pantryForm.appendChild(formRow)
+    cardText.appendChild(pantryForm)
     // attach cardText to cardBody
     cardBody.appendChild(cardText)
     // attach cardHeader then cardBody to card
@@ -856,10 +905,16 @@ const displayPantry = () => {
     mainSection.appendChild(row)
 }
 
-const listPantryItems = () => {
+const listPantryItems = (items) => {
     const pantryUl = document.getElementById('pantryList')
     // list Pantry Items in List Item
     // attach to pantryUl
+}
+
+const addPantryItem = (event) => {
+    event.preventDefault();
+
+
 }
 
 
