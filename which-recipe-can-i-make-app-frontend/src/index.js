@@ -1007,7 +1007,7 @@ const deletePantryItem = (event) => {
     getPantry();
 }
 
-// IN PROGRESS
+// getRecipes DONE
 const getRecipes = (event) => {
     if (event) {
         event.preventDefault();
@@ -1061,7 +1061,7 @@ const getRecipes = (event) => {
     })
 }
 
-
+// displayRecipes DONE
 const displayRecipes = () => {
     const row = document.createElement('div')
     row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
@@ -1135,12 +1135,41 @@ const displayRecipes = () => {
 
 
 const listRecipes = (recipe) => {
+    const recipesTableBody = document.getElementById('recipesTableBody')
+    // list Pantry Items in List Item
+    const recipesRow = document.createElement('tr')
+    recipesRow.setAttribute("id", `${recipe.id}`)
+    const recipeName = document.createElement('td')
+    recipeName.innerHTML = `${recipe['name']}`
+    const recipeCalories = document.createElement('td')
+    recipeCalories.innerHTML = `${recipe['cal_per_serving']}`
 
+    const viewCell = document.createElement('td')
+    const viewButton = document.createElement('button')
+    viewButton.setAttribute("class", "btn btn-outline-success btn-block text-decoration-none")
+    viewButton.setAttribute("type", "submit")
+    viewButton.setAttribute("name", "view")
+    viewButton.setAttribute("value", "View")
+    viewButton.innerHTML = "View"
+    viewButton.setAttribute("data-disable-with", "Deleting Item.....")
+    viewButton.setAttribute("data-recipe-id", recipe.id)
+    viewButton.addEventListener("click", viewRecipe)
+    viewCell.appendChild(viewButton)
+    // attach to recipesTableBody
+    recipesRow.appendChild(recipeName)
+    recipesRow.appendChild(recipeCalories)
+    recipesRow.appendChild(viewCell)
+    recipesTableBody.appendChild(recipesRow)
 }
 
 
 const newRecipeForm = (event) => {
     event.preventDefault();
 
+
+}
+
+
+const viewRecipe = () => {
 
 }
