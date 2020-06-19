@@ -1063,7 +1063,74 @@ const getRecipes = (event) => {
 
 
 const displayRecipes = () => {
+    const row = document.createElement('div')
+    row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
+    row.setAttribute("id", "recipesRow")
 
+    const card = document.createElement('div')
+    card.setAttribute("class", "shadow card text-white bg-dark w-50 mx-auto my-5")
+    const cardHeader = document.createElement('h5')
+    cardHeader.setAttribute("class", "card-header text-center")
+    cardHeader.innerHTML = "Your Pantry"
+    const cardBody = document.createElement('div')
+    cardBody.setAttribute("class", "card-body")
+    const cardText = document.createElement('p')
+    cardText.setAttribute("class", "card-text")
+    cardText.setAttribute("id", "recipesCardText")
+
+    const pantyList = document.createElement('table')
+    pantyList.setAttribute("class", "table table-sm table-hover table-dark")
+    pantyList.setAttribute("id", "recipesList")
+    const tableHead = document.createElement('thead')
+    tableHead.setAttribute("class", "thead-dark")
+    const tableBody = document.createElement('tbody')
+    tableBody.setAttribute("id", "recipesTableBody")
+    const tableRow = document.createElement('tr')
+    const recipeHeader = document.createElement('th')
+    recipeHeader.innerText = "Recipe Name"
+    const calorieHeader = document.createElement('th')
+    calorieHeader.innerText = "Calories Per Serving"
+    const viewRecipeHeader = document.createElement('th')
+    viewRecipeHeader.innerText = "View Recipe"
+    tableRow.appendChild(recipeHeader)
+    tableRow.appendChild(calorieHeader)
+    tableRow.appendChild(viewRecipeHeader)
+    tableHead.appendChild(tableRow)
+    pantyList.appendChild(tableHead)
+    pantyList.appendChild(tableBody)
+    cardText.appendChild(pantyList)
+
+    const recipeForm = document.createElement('form')
+    recipeForm.setAttribute("class", "mx-auto")
+    recipeForm.setAttribute("id", "recipeForm")
+
+    const formRow = document.createElement('div')
+    formRow.setAttribute("class", "form-row")
+    formRow.setAttribute("id", "formRow")
+
+    const submitGroup = document.createElement('div')
+    submitGroup.setAttribute("class", "form-group col")
+    const submitButton = document.createElement('input')
+    submitButton.setAttribute("class", "btn btn-outline-info btn-block text-decoration-none")
+    submitButton.setAttribute("type", "submit")
+    submitButton.setAttribute("name", "submit")
+    submitButton.setAttribute("value", "Create New Recipe")
+    submitButton.setAttribute("data-disable-with", "New Recipe.....")
+    submitButton.addEventListener("click", newRecipeForm)
+    submitGroup.appendChild(submitButton)
+    formRow.appendChild(submitGroup)
+
+    recipeForm.appendChild(formRow)
+    cardText.appendChild(recipeForm)
+    // attach cardText to cardBody
+    cardBody.appendChild(cardText)
+    // attach cardHeader then cardBody to card
+    card.appendChild(cardHeader)
+    card.appendChild(cardBody)
+    // attach div to row
+    row.appendChild(card)
+    // attach row to mainSection
+    mainSection.appendChild(row)
 }
 
 
@@ -1072,3 +1139,8 @@ const listRecipes = (recipe) => {
 }
 
 
+const newRecipeForm = (event) => {
+    event.preventDefault();
+
+
+}
