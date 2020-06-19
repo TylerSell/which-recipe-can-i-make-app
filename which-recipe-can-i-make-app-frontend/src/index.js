@@ -1133,7 +1133,7 @@ const displayRecipes = () => {
     mainSection.appendChild(row)
 }
 
-
+// listRecipes DONE
 const listRecipes = (recipe) => {
     const recipesTableBody = document.getElementById('recipesTableBody')
     // list Pantry Items in List Item
@@ -1162,7 +1162,7 @@ const listRecipes = (recipe) => {
     recipesTableBody.appendChild(recipesRow)
 }
 
-
+// IN PROGRESS----------------------------------
 const newRecipeForm = (event) => {
     event.preventDefault();
 
@@ -1170,6 +1170,93 @@ const newRecipeForm = (event) => {
 }
 
 
-const viewRecipe = () => {
+const viewRecipe = (event) => {
+    if (event) {
+        event.preventDefault();
+    }
+
+    const recipeId = event.target.dataset.recipeId
+
+    const sendObject = {
+        credentials: "include",
+        method: "GET",
+        headers: {
+            "Accept": "application/json"
+        }
+    }
+
+    fetch(`${BASE_URL}/users/${globalUser.id}/recipes/${recipeId}`, sendObject)
+    .then(resp => resp.json())
+    .then(json => {
+        // draw Recipe Card
+        // show Recipe info 
+        // add to Recipe Card
+        const row = document.createElement('div')
+        row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
+        row.setAttribute("id", "recipeRow")
+
+        const card = document.createElement('div')
+        card.setAttribute("class", "shadow card text-white bg-dark w-50 mx-auto my-5")
+        const cardHeader = document.createElement('h5')
+        cardHeader.setAttribute("class", "card-header text-center")
+        cardHeader.innerHTML = `${json['name']}`
+        const cardBody = document.createElement('div')
+        cardBody.setAttribute("class", "card-body")
+        const cardText = document.createElement('p')
+        cardText.setAttribute("class", "card-text")
+
+        const servingSizeRow = document.createElement('div')
+        servingSizeRow.setAttribute("class", "row ml-3")
+        const servingSizeCol = document.createElement('div')
+        servingSizeCol.setAttribute("class", "col")
+        const servingSizeP = document.createElement('p')
+        servingSizeP.setAttribute("class", "h5 text-capitalize")
+        const servingSizeHeading = document.createElement('strong')
+        servingSizeHeading.innerText = "Serving Size: "
+        servingSizeP.appendChild(servingSizeHeading)
+        servingSizeP.insertAdjacentText("beforeend", `${recipe['serving_size']}`)
+        servingSizeCol.appendChild(servingSizeP)
+        servingSizeRow.appendChild(servingSizeCol)
+        cardText.appendChild(servingSizeRow)
+
+        const calorieRow = document.createElement('div')
+        calorieRow.setAttribute("class", "row ml-3")
+        const calorieCol = document.createElement('div')
+        calorieCol.setAttribute("class", "col")
+        const calorieP = document.createElement('p')
+        calorieP.setAttribute("class", "h5 text-capitalize")
+        const calorieHeading = document.createElement('strong')
+        calorieHeading.innerText = "Calories Per Serving: "
+        calorieP.appendChild(calorieHeading)
+        calorieP.insertAdjacentText("beforeend", `${recipe['cal_per_serving']}`)
+        calorieCol.appendChild(calorieP)
+        calorieRow.appendChild(calorieCol)
+        cardText.appendChild(calorieRow)
+
+
+
+        // show ingredient info
+        // add to recipe card
+
+        // show instruction info
+        // add to recipe card
+
+        // draw edit button
+        // add to recipe card
+
+        // attach cardText to cardBody
+        cardBody.appendChild(cardText)
+        // attach cardHeader then cardBody to card
+        card.appendChild(cardHeader)
+        card.appendChild(cardBody)
+        // attach div to row
+        row.appendChild(card)
+        // attach row to mainSection
+        mainSection.appendChild(row)
+    })
+}
+
+
+const editRecipeForm = () => {
 
 }
