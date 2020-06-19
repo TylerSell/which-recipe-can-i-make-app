@@ -8,7 +8,7 @@ class RecipesController < ApplicationController
     
     def create 
         user = current_user
-        recipe = user.recipe.build(recipe_params)
+        recipe = user.recipes.build(recipe_params)
 
         render json: recipe.save ? recipe : {error: 'Something went wrong please try again'}
     end
@@ -37,6 +37,20 @@ class RecipesController < ApplicationController
     private 
 
     def recipe_params
-        params.require(:recipe).permit(:name, :serving_size, :cal_per_serving, :user_id, ingredient_attributes: [:id, :name, :quantity, :recipe_id], instruction_attributes: [:id, :description, :recipe_id])
+        params.require(:recipe).permit(
+            :name, 
+            :serving_size, 
+            :cal_per_serving, 
+            :user_id, 
+            {ingredient_attributes: 
+                [
+                    :name, 
+                    :quantity
+                ]},
+            {instruction_attributes: 
+                [
+                    :description
+                ]}
+            )
     end
 end

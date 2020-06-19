@@ -1520,7 +1520,7 @@ const insertIngredientForm = (event) => {
     const ingredientNameInput = document.createElement('input')
     ingredientNameInput.setAttribute("class", "form-control bg-secondary text-white")
     ingredientNameInput.setAttribute("type", "text")
-    ingredientNameInput.setAttribute("name", "recipe[ingredient[name]]")
+    ingredientNameInput.setAttribute("name", "recipe[ingredient_attributes][][name]")
     ingredientNameInput.setAttribute("id", "ingredient_name")
     ingredientNameGroup.appendChild(ingredientNameLabel)
     ingredientNameGroup.appendChild(ingredientNameInput)
@@ -1534,7 +1534,7 @@ const insertIngredientForm = (event) => {
     const ingredientQuantityInput = document.createElement('input')
     ingredientQuantityInput.setAttribute("class", "form-control bg-secondary text-white")
     ingredientQuantityInput.setAttribute("type", "text")
-    ingredientQuantityInput.setAttribute("name", "recipe[ingredient[quantity]]")
+    ingredientQuantityInput.setAttribute("name", "recipe[ingredient_attributes][][quantity]")
     ingredientQuantityInput.setAttribute("id", "ingredient_quantity")
     ingredientQuantityGroup.appendChild(ingredientQuantityLabel)
     ingredientQuantityGroup.appendChild(ingredientQuantityInput)
@@ -1562,7 +1562,7 @@ const insertInstructionForm = (event) => {
     const instructionInput = document.createElement('input')
     instructionInput.setAttribute("class", "form-control bg-secondary text-white")
     instructionInput.setAttribute("type", "text")
-    instructionInput.setAttribute("name", "recipe[instruction[description]]")
+    instructionInput.setAttribute("name", "recipe[instruction_attributes][][description]")
     instructionInput.setAttribute("id", "instruction_description")
     instructionGroup.appendChild(instructionLabel)
     instructionGroup.appendChild(instructionInput)
@@ -1580,7 +1580,26 @@ const newRecipe = (event) => {
 
     let formData = new FormData(document.getElementById('newRecipeForm'))
 
-    console.log(formData)
+    const sendObject = {
+        credentials: "include",
+        method: "POST",
+        headers: {
+            // "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: formData
+    }
+
+    fetch(`${BASE_URL}/users/${globalUser.id}/recipes`, sendObject)
+    .then(response => response.json())
+    .then(json => {
+        if (json.error) {
+            alert(json.error)
+        } else {
+            getRecipes()
+        }
+    })
+    .catch(console.log)
 }
 
 
