@@ -518,6 +518,13 @@ const getUser = (event) => {
     if (!!recipeRow) {
         recipeRow.remove();
     }
+
+    const newRecipeRow = document.getElementById('newRecipeRow')
+    if (!!newRecipeRow) {
+        newRecipeRow.remove();
+    }
+
+    displayUser(globalUser);
 }
 
 // displayUser DONE
@@ -805,6 +812,11 @@ const getPantry = (event) => {
         recipeRow.remove();
     }
 
+    const newRecipeRow = document.getElementById('newRecipeRow')
+    if (!!newRecipeRow) {
+        newRecipeRow.remove();
+    }
+
     // display the pantry
     displayPantry();
     document.getElementById('pantryForm').reset();
@@ -1051,6 +1063,11 @@ const getRecipes = (event) => {
     if (!!recipeRow) {
         recipeRow.remove();
     }
+    
+    const newRecipeRow = document.getElementById('newRecipeRow')
+    if (!!newRecipeRow) {
+        newRecipeRow.remove();
+    }
 
     // display recipes
     displayRecipes();
@@ -1174,14 +1191,7 @@ const listRecipes = (recipe) => {
     recipesTableBody.appendChild(recipesRow)
 }
 
-// IN PROGRESS----------------------------------
-const newRecipeForm = (event) => {
-    event.preventDefault();
-
-
-}
-
-
+// view Recipe DONE
 const viewRecipe = (event) => {
     if (event) {
         event.preventDefault();
@@ -1340,6 +1350,189 @@ const viewRecipe = (event) => {
         // attach row to mainSection
         mainSection.appendChild(row)
     })
+}
+
+// IN PROGRESS----------------------------------
+const newRecipeForm = (event) => {
+    event.preventDefault();
+
+    const updateUserRow = document.getElementById('updateUserRow')
+    if (!!updateUserRow) {
+        updateUserRow.remove();
+    }
+
+    const userRow = document.getElementById('userRow')
+    if (!!userRow) {
+        userRow.remove();
+    }
+
+    const pantryRow = document.getElementById('pantryRow')
+    if (!!pantryRow) {
+        pantryRow.remove();
+    }
+
+    const recipesRow = document.getElementById('recipesRow')
+    if (!!recipesRow) {
+        recipesRow.remove();
+    }
+
+    const recipeRow = document.getElementById('recipeRow')
+    if (!!recipeRow) {
+        recipeRow.remove();
+    }
+
+    const row = document.createElement('div')
+    row.setAttribute("class", "row flex-xl-nowrap justify-content-center")
+    row.setAttribute("id", "newRecipeRow")
+
+    const card = document.createElement('div')
+    card.setAttribute("class", "shadow card text-white bg-dark w-50 mx-auto my-5")
+    const cardHeader = document.createElement('h5')
+    cardHeader.setAttribute("class", "card-header text-center")
+    cardHeader.innerHTML = "New Recipe"
+    const cardBody = document.createElement('div')
+    cardBody.setAttribute("class", "card-body")
+    const cardText = document.createElement('p')
+    cardText.setAttribute("class", "card-text")
+    const form = document.createElement('form')
+    form.setAttribute("id", "newRecipeForm")
+
+    const hiddenField = document.createElement('input')
+    hiddenField.setAttribute("type", "hidden")
+    hiddenField.setAttribute("name", "recipe[user_id]")
+    hiddenField.setAttribute("value", `${globalUser.id}`)
+    form.appendChild(hiddenField)
+    
+    const recipeNameGroup = document.createElement('div')
+    recipeNameGroup.setAttribute("class", "form-group")
+    const recipeNameLabel = document.createElement('label')
+    recipeNameLabel.setAttribute("for", "recipe_name")
+    recipeNameLabel.innerHTML = "Recipe Name"
+    const recipeNameInput = document.createElement('input')
+    recipeNameInput.setAttribute("class", "form-control bg-secondary text-white")
+    recipeNameInput.setAttribute("type", "text")
+    recipeNameInput.setAttribute("name", "recipe[name]")
+    recipeNameInput.setAttribute("id", "recipe_name")
+    recipeNameGroup.appendChild(recipeNameLabel)
+    recipeNameGroup.appendChild(recipeNameInput)
+    form.appendChild(recipeNameGroup)
+
+    const servineSizeGroup = document.createElement('div')
+    servineSizeGroup.setAttribute("class", "form-group")
+    const servineSizeLabel = document.createElement('label')
+    servineSizeLabel.setAttribute("for", "recipe_serving_size")
+    servineSizeLabel.innerHTML = "Serving Size"
+    const servineSizeInput = document.createElement('input')
+    servineSizeInput.setAttribute("class", "form-control bg-secondary text-white")
+    servineSizeInput.setAttribute("type", "text")
+    servineSizeInput.setAttribute("name", "recipe[serving_size]")
+    servineSizeInput.setAttribute("id", "recipe_serving_size")
+    servineSizeGroup.appendChild(servineSizeLabel)
+    servineSizeGroup.appendChild(servineSizeInput)
+    form.appendChild(servineSizeGroup)
+
+    const caloriesGroup = document.createElement('div')
+    caloriesGroup.setAttribute("class", "form-group")
+    const caloriesLabel = document.createElement('label')
+    caloriesLabel.setAttribute("for", "recipe_cal_per_serving")
+    caloriesLabel.innerHTML = "Calories Per Serving"
+    const caloriesInput = document.createElement('input')
+    caloriesInput.setAttribute("class", "form-control bg-secondary text-white")
+    caloriesInput.setAttribute("type", "text")
+    caloriesInput.setAttribute("name", "recipe[cal_per_serving]")
+    caloriesInput.setAttribute("id", "recipe_cal_per_serving")
+    caloriesGroup.appendChild(caloriesLabel)
+    caloriesGroup.appendChild(caloriesInput)
+    form.appendChild(caloriesGroup)
+
+    const ingredientDiv = document.createElement('div')
+    ingredientDiv.setAttribute("class", "row justify-content-center")
+    const ingredientHeader = document.createElement('h4')
+    ingredientHeader.innerHTML = "Ingredients"
+    ingredientDiv.appendChild(ingredientHeader)
+    form.appendChild(ingredientDiv)
+
+    const addIngredientButton = document.createElement('input')
+    addIngredientButton.setAttribute("class", "btn btn-outline-info btn-block text-decoration-none")
+    addIngredientButton.setAttribute("type", "submit")
+    addIngredientButton.setAttribute("name", "commit")
+    addIngredientButton.setAttribute("id", "addIngredientButton")
+    addIngredientButton.setAttribute("value", "Add Ingredient")
+    addIngredientButton.setAttribute("data-disable-with", "Adding Ingredient.....")
+    addIngredientButton.addEventListener("click", insertIngredientForm)
+    form.appendChild(addIngredientButton)
+
+    const submitButton = document.createElement('input')
+    submitButton.setAttribute("class", "btn btn-outline-info btn-block text-decoration-none")
+    submitButton.setAttribute("type", "submit")
+    submitButton.setAttribute("name", "commit")
+    submitButton.setAttribute("value", "Create Recipe")
+    submitButton.setAttribute("data-disable-with", "Creating New Recipe.....")
+    submitButton.addEventListener("click", newRecipe)
+    form.appendChild(submitButton)
+    
+    // attach form to cardText
+    cardText.appendChild(form)
+    // attach cardText to cardBody
+    cardBody.appendChild(cardText)
+    // attach cardHeader then cardBody to card
+    card.appendChild(cardHeader)
+    card.appendChild(cardBody)
+    // attach div to row
+    row.appendChild(card)
+    // attach row to mainSection
+    mainSection.appendChild(row)
+}
+
+// insert Ingredient DONE
+const insertIngredientForm = (event) => {
+    event.preventDefault();
+
+    const ingredientButton = document.getElementById('addIngredientButton')
+    const parentForm = document.getElementById('newRecipeForm')
+
+    const formRow = document.createElement('div')
+    formRow.setAttribute("class", "form-row")
+    formRow.setAttribute("id", "formRow")
+
+    const ingredientNameGroup = document.createElement('div')
+    ingredientNameGroup.setAttribute("class", "form-group col")
+    const ingredientNameLabel = document.createElement('label')
+    ingredientNameLabel.setAttribute("for", "ingredientName")
+    ingredientNameLabel.innerHTML = "Name"
+    const ingredientNameInput = document.createElement('input')
+    ingredientNameInput.setAttribute("class", "form-control bg-secondary text-white")
+    ingredientNameInput.setAttribute("type", "text")
+    ingredientNameInput.setAttribute("name", "recipe[ingredient[name]]")
+    ingredientNameInput.setAttribute("id", "ingredient_name")
+    ingredientNameGroup.appendChild(ingredientNameLabel)
+    ingredientNameGroup.appendChild(ingredientNameInput)
+    formRow.appendChild(ingredientNameGroup)
+
+    const ingredientQuantityGroup = document.createElement('div')
+    ingredientQuantityGroup.setAttribute("class", "form-group col")
+    const ingredientQuantityLabel = document.createElement('label')
+    ingredientQuantityLabel.setAttribute("for", "ingredientQuantity")
+    ingredientQuantityLabel.innerHTML = "Quantity"
+    const ingredientQuantityInput = document.createElement('input')
+    ingredientQuantityInput.setAttribute("class", "form-control bg-secondary text-white")
+    ingredientQuantityInput.setAttribute("type", "text")
+    ingredientQuantityInput.setAttribute("name", "recipe[ingredient[quantity]]")
+    ingredientQuantityInput.setAttribute("id", "ingredient_quantity")
+    ingredientQuantityGroup.appendChild(ingredientQuantityLabel)
+    ingredientQuantityGroup.appendChild(ingredientQuantityInput)
+    formRow.appendChild(ingredientQuantityGroup)
+
+    parentForm.insertBefore(formRow, ingredientButton)
+}
+
+
+const newRecipe = (event) => {
+    event.preventDefault();
+
+    let formData = new FormData(document.getElementById('newRecipeForm'))
+
+    console.log(formData)
 }
 
 
