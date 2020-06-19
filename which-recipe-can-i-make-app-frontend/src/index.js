@@ -1461,9 +1461,26 @@ const newRecipeForm = (event) => {
     addIngredientButton.setAttribute("data-disable-with", "Adding Ingredient.....")
     addIngredientButton.addEventListener("click", insertIngredientForm)
     form.appendChild(addIngredientButton)
+    
+    const instructionDiv = document.createElement('div')
+    instructionDiv.setAttribute("class", "row justify-content-center mt-2")
+    const instructionHeader = document.createElement('h4')
+    instructionHeader.innerHTML = "Instructions"
+    instructionDiv.appendChild(instructionHeader)
+    form.appendChild(instructionDiv)
+
+    const addInstructionButton = document.createElement('input')
+    addInstructionButton.setAttribute("class", "btn btn-outline-info btn-block text-decoration-none")
+    addInstructionButton.setAttribute("type", "submit")
+    addInstructionButton.setAttribute("name", "commit")
+    addInstructionButton.setAttribute("id", "addInstructionButton")
+    addInstructionButton.setAttribute("value", "Add Instruction")
+    addInstructionButton.setAttribute("data-disable-with", "Adding Instruction.....")
+    addInstructionButton.addEventListener("click", insertInstructionForm)
+    form.appendChild(addInstructionButton)
 
     const submitButton = document.createElement('input')
-    submitButton.setAttribute("class", "btn btn-outline-info btn-block text-decoration-none")
+    submitButton.setAttribute("class", "btn btn-outline-success btn-block text-decoration-none")
     submitButton.setAttribute("type", "submit")
     submitButton.setAttribute("name", "commit")
     submitButton.setAttribute("value", "Create Recipe")
@@ -1525,6 +1542,37 @@ const insertIngredientForm = (event) => {
 
     parentForm.insertBefore(formRow, ingredientButton)
 }
+
+// insert Instruction DONE
+const insertInstructionForm = (event) => {
+    event.preventDefault();
+
+    const instructionButton = document.getElementById('addInstructionButton')
+    const parentForm = document.getElementById('newRecipeForm')
+
+    const formRow = document.createElement('div')
+    formRow.setAttribute("class", "form-row")
+    formRow.setAttribute("id", "formRow")
+
+    const instructionGroup = document.createElement('div')
+    instructionGroup.setAttribute("class", "form-group col")
+    const instructionLabel = document.createElement('label')
+    instructionLabel.setAttribute("for", "instruction_description")
+    instructionLabel.innerHTML = "Description"
+    const instructionInput = document.createElement('input')
+    instructionInput.setAttribute("class", "form-control bg-secondary text-white")
+    instructionInput.setAttribute("type", "text")
+    instructionInput.setAttribute("name", "recipe[instruction[description]]")
+    instructionInput.setAttribute("id", "instruction_description")
+    instructionGroup.appendChild(instructionLabel)
+    instructionGroup.appendChild(instructionInput)
+    formRow.appendChild(instructionGroup)
+
+    parentForm.insertBefore(formRow, instructionButton)
+}
+
+
+
 
 
 const newRecipe = (event) => {
