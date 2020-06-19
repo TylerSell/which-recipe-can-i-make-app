@@ -494,17 +494,14 @@ const getUser = (event) => {
     document.getElementById('displayRecipesLink').removeAttribute("class")
     document.getElementById('displayRecipesLink').setAttribute("class", "nav-link text-secondary")
 
-    const userRow = document.getElementById('userRow')
-    if (!userRow) {
-        displayUser(globalUser);
-    } else {
-        userRow.remove();
-        displayUser(globalUser);
-    }
-
     const updateUserRow = document.getElementById('updateUserRow')
     if (!!updateUserRow) {
         updateUserRow.remove();
+    }
+
+    const userRow = document.getElementById('userRow')
+    if (!!userRow) {
+        userRow.remove();
     }
 
     const pantryRow = document.getElementById('pantryRow')
@@ -515,6 +512,11 @@ const getUser = (event) => {
     const recipesRow = document.getElementById('recipesRow')
     if (!!recipesRow) {
         recipesRow.remove();
+    }
+
+    const recipeRow = document.getElementById('recipeRow')
+    if (!!recipeRow) {
+        recipeRow.remove();
     }
 }
 
@@ -798,6 +800,11 @@ const getPantry = (event) => {
         recipesRow.remove();
     }
 
+    const recipeRow = document.getElementById('recipeRow')
+    if (!!recipeRow) {
+        recipeRow.remove();
+    }
+
     // display the pantry
     displayPantry();
     document.getElementById('pantryForm').reset();
@@ -1040,6 +1047,11 @@ const getRecipes = (event) => {
         recipesRow.remove();
     }
 
+    const recipeRow = document.getElementById('recipeRow')
+    if (!!recipeRow) {
+        recipeRow.remove();
+    }
+
     // display recipes
     displayRecipes();
 
@@ -1175,6 +1187,31 @@ const viewRecipe = (event) => {
         event.preventDefault();
     }
 
+    const updateUserRow = document.getElementById('updateUserRow')
+    if (!!updateUserRow) {
+        updateUserRow.remove();
+    }
+
+    const userRow = document.getElementById('userRow')
+    if (!!userRow) {
+        userRow.remove();
+    }
+
+    const pantryRow = document.getElementById('pantryRow')
+    if (!!pantryRow) {
+        pantryRow.remove();
+    }
+
+    const recipesRow = document.getElementById('recipesRow')
+    if (!!recipesRow) {
+        recipesRow.remove();
+    }
+
+    const recipeRow = document.getElementById('recipeRow')
+    if (!!recipeRow) {
+        recipeRow.remove();
+    }
+
     const recipeId = event.target.dataset.recipeId
 
     const sendObject = {
@@ -1188,6 +1225,7 @@ const viewRecipe = (event) => {
     fetch(`${BASE_URL}/users/${globalUser.id}/recipes/${recipeId}`, sendObject)
     .then(resp => resp.json())
     .then(json => {
+        console.log(json)
         // draw Recipe Card
         // show Recipe info 
         // add to Recipe Card
@@ -1197,7 +1235,7 @@ const viewRecipe = (event) => {
 
         const card = document.createElement('div')
         card.setAttribute("class", "shadow card text-white bg-dark w-50 mx-auto my-5")
-        const cardHeader = document.createElement('h5')
+        const cardHeader = document.createElement('h4')
         cardHeader.setAttribute("class", "card-header text-center")
         cardHeader.innerHTML = `${json['name']}`
         const cardBody = document.createElement('div')
@@ -1210,11 +1248,11 @@ const viewRecipe = (event) => {
         const servingSizeCol = document.createElement('div')
         servingSizeCol.setAttribute("class", "col")
         const servingSizeP = document.createElement('p')
-        servingSizeP.setAttribute("class", "h5 text-capitalize")
+        servingSizeP.setAttribute("class", "h6 text-muted text-capitalize")
         const servingSizeHeading = document.createElement('strong')
         servingSizeHeading.innerText = "Serving Size: "
         servingSizeP.appendChild(servingSizeHeading)
-        servingSizeP.insertAdjacentText("beforeend", `${recipe['serving_size']}`)
+        servingSizeP.insertAdjacentText("beforeend", `${json['serving_size']}`)
         servingSizeCol.appendChild(servingSizeP)
         servingSizeRow.appendChild(servingSizeCol)
         cardText.appendChild(servingSizeRow)
@@ -1224,25 +1262,73 @@ const viewRecipe = (event) => {
         const calorieCol = document.createElement('div')
         calorieCol.setAttribute("class", "col")
         const calorieP = document.createElement('p')
-        calorieP.setAttribute("class", "h5 text-capitalize")
+        calorieP.setAttribute("class", "h6 text-muted text-capitalize")
         const calorieHeading = document.createElement('strong')
         calorieHeading.innerText = "Calories Per Serving: "
         calorieP.appendChild(calorieHeading)
-        calorieP.insertAdjacentText("beforeend", `${recipe['cal_per_serving']}`)
+        calorieP.insertAdjacentText("beforeend", `${json['cal_per_serving']}`)
         calorieCol.appendChild(calorieP)
         calorieRow.appendChild(calorieCol)
         cardText.appendChild(calorieRow)
 
-
-
         // show ingredient info
         // add to recipe card
+        const ingredientRow = document.createElement('div')
+        ingredientRow.setAttribute("class", "row ml-3")
+        const ingredientCol = document.createElement('div')
+        ingredientCol.setAttribute("class", "col")
+        const ingredientHeader = document.createElement('h4')
+        ingredientHeader.setAttribute("class", "h4 text-capitalize")
+        ingredientHeader.innerHTML = "Ingredients"
+        ingredientCol.appendChild(ingredientHeader)
+        const ingredientUl = document.createElement('ul')
+        ingredientCol.appendChild(ingredientUl)
+        ingredientRow.appendChild(ingredientCol)
+        cardText.appendChild(ingredientRow)
+        // iterate through all ingredients and add them to <LI></LI>
+        // attach the li to ingredientUl
+        json.ingredients.forEach(ingredient => {
+            const ingredientLi = document.createElement('li')
+            ingredientLi.setAttribute("class", "text-muted text-capitalize")
+            ingredientLi.innerHTML = `${ingredient['name']} (${ingredient['quantity']})`
+            ingredientUl.appendChild(ingredientLi)
+        })
 
         // show instruction info
         // add to recipe card
+        const instructionRow = document.createElement('div')
+        instructionRow.setAttribute("class", "row ml-3")
+        const instructionCol = document.createElement('div')
+        instructionCol.setAttribute("class", "col")
+        const instructionHeader = document.createElement('h4')
+        instructionHeader.setAttribute("class", "h4 text-capitalize")
+        instructionHeader.innerHTML = "Instructions"
+        instructionCol.appendChild(instructionHeader)
+        const instructionOl = document.createElement('ol')
+        instructionCol.appendChild(instructionOl)
+        instructionRow.appendChild(instructionCol)
+        cardText.appendChild(instructionRow)
+        // iterate through all instructions and add them to <LI></LI>
+        // attach the li to instructionOl
+        json.instructions.forEach(instruction => {
+            const instructionLi = document.createElement('li')
+            instructionLi.setAttribute("class", "text-muted text-capitalize")
+            instructionLi.innerHTML = `${instruction['description']}`
+            instructionOl.appendChild(instructionLi)
+        })
 
         // draw edit button
         // add to recipe card
+        const editButton = document.createElement('button')
+        editButton.setAttribute("class", "btn btn-outline-warning btn-block text-decoration-none")
+        editButton.setAttribute("type", "submit")
+        editButton.setAttribute("name", "edit")
+        editButton.setAttribute("value", "View")
+        editButton.innerHTML = "Edit Recipe"
+        editButton.setAttribute("data-disable-with", "Edit Recipe.....")
+        editButton.setAttribute("data-recipe-id", json.id)
+        editButton.addEventListener("click", editRecipeForm)
+        cardText.appendChild(editButton)
 
         // attach cardText to cardBody
         cardBody.appendChild(cardText)
@@ -1257,6 +1343,6 @@ const viewRecipe = (event) => {
 }
 
 
-const editRecipeForm = () => {
-
+const editRecipeForm = (event) => {
+    event.preventDefault();
 }
