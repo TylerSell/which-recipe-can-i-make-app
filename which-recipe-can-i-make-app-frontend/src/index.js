@@ -1571,10 +1571,7 @@ const insertInstructionForm = (event) => {
     parentForm.insertBefore(formRow, instructionButton)
 }
 
-
-
-
-
+// new Recipe DONE
 const newRecipe = (event) => {
     event.preventDefault();
 
@@ -1605,4 +1602,16 @@ const newRecipe = (event) => {
 
 const editRecipeForm = (event) => {
     event.preventDefault();
+
+    // draw the form card
+    
+    // get the recipe with fetch 
+
+    // add recipe fields to form and fill with recipe data
+
+    // iterate through ingredients and add fields for each ingredient and fill with ingredient data
+
+    // iterate through instructions and add fields for each instruction and fill with instruction data
+
+    // fetch to send updated information
 }
