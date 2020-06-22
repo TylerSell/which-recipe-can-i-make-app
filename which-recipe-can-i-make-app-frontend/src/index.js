@@ -4,7 +4,6 @@ const RECIPES_URL = `${BASE_URL}/recipes`
 const mainSection = document.querySelector('main')
 const pageHeader = document.getElementById('header')
 let globalUser;
-let globalRecipes;
 
 document.addEventListener("DOMContentLoaded", () => loadPage())
 
@@ -1234,6 +1233,8 @@ const viewRecipe = (event) => {
     }
 
     const recipeId = event.target.dataset.recipeId
+    let pantry = [];
+    let ingredients = [];
 
     const sendObject = {
         credentials: "include",
@@ -1243,9 +1244,19 @@ const viewRecipe = (event) => {
         }
     }
 
+    fetch(`${BASE_URL}/users/${globalUser.id}/pantry_items`, sendObject)
+    .then(resp => resp.json())
+    // list pantry items
+    .then(json => {
+        json.forEach(item => {
+            pantry.push(`${item['name']}`)
+        })
+    })
+
     fetch(`${BASE_URL}/users/${globalUser.id}/recipes/${recipeId}`, sendObject)
     .then(resp => resp.json())
     .then(json => {
+        
         // draw Recipe Card
         // show Recipe info 
         // add to Recipe Card
@@ -1262,6 +1273,30 @@ const viewRecipe = (event) => {
         cardBody.setAttribute("class", "card-body")
         const cardText = document.createElement('p')
         cardText.setAttribute("class", "card-text")
+
+        const makeRow = document.createElement('div')
+        makeRow.setAttribute("class", "row justify-content-center")
+        const makeCol = document.createElement('div')
+        makeCol.setAttribute("class", "col")
+        const makeHeader = document.createElement('h4')
+
+        json.ingredients.forEach(ingredient => {
+            ingredients.push(`${ingredient['name']}`)
+        })
+
+        let isSuperset = ingredients.every(function (val) { return pantry.indexOf(val) >= 0; })
+        
+        if (isSuperset) {
+            makeHeader.setAttribute("class", "h4 text-capitalize text-center text-success")
+            makeHeader.innerHTML = "You can make this Recipe!"
+        } else {
+            makeHeader.setAttribute("class", "h4 text-capitalize text-center text-danger")
+            makeHeader.innerHTML = "You cannot make this Recipe!"
+        }
+
+        makeCol.appendChild(makeHeader)
+        makeRow.appendChild(makeCol)
+        cardText.appendChild(makeRow)
 
         const servingSizeRow = document.createElement('div')
         servingSizeRow.setAttribute("class", "row ml-3")
@@ -1312,6 +1347,7 @@ const viewRecipe = (event) => {
             ingredientLi.setAttribute("class", "text-muted text-capitalize")
             ingredientLi.innerHTML = `${ingredient['name']} (${ingredient['quantity']})`
             ingredientUl.appendChild(ingredientLi)
+            ingredients.push(`${ingredient['name']}`)
         })
 
         // show instruction info
@@ -1359,7 +1395,7 @@ const viewRecipe = (event) => {
         row.appendChild(card)
         // attach row to mainSection
         mainSection.appendChild(row)
-    })
+        })
 }
 
 // IN PROGRESS----------------------------------
