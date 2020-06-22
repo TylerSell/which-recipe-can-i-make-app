@@ -42,15 +42,25 @@ class RecipesController < ApplicationController
             :serving_size, 
             :cal_per_serving, 
             :user_id, 
-            {ingredient_attributes: 
+            { new_ingredient_attributes: 
                 [
                     :name, 
                     :quantity
                 ]},
-            {instruction_attributes: 
+            { new_instruction_attributes: 
+                [
+                    :description
+                ]},
+            { existing_ingredient_attributes: 
+                [
+                    :name, 
+                    :quantity
+                ]},
+            { existing_instruction_attributes: 
                 [
                     :description
                 ]}
             )
     end
+
 end
