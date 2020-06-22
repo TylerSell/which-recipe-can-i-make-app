@@ -1196,7 +1196,6 @@ const listRecipes = (recipe) => {
 }
 
 // view Recipe DONE
-// ADD CAN I MAKE THIS RECIPE TO RECIPE VIEW CARD -------------------------------------------------------
 const viewRecipe = (event) => {
     if (event) {
         event.preventDefault();
