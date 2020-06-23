@@ -1,4 +1,4 @@
-#What Recipe Can I Make?
+# What Recipe Can I Make?
 
 I came up with the idea for this app when I was trying to figure out what to cook one night.  I had a couple of recipes but wasn't sure if I could make them or not.  I looked through the ingredients and checked my pantry for the ingredients finally finding one of the 4 recipes I chose that I could actually make from my pantry without having to go to the store.
 
