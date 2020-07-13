@@ -481,7 +481,7 @@ class User {
         this.email = email;
     }
 }
-
+ 
 // getUser DONE
 const getUser = (event) => {
     event.preventDefault();
@@ -832,8 +832,19 @@ const getPantry = (event) => {
     fetch(`${BASE_URL}/users/${globalUser.id}/pantry_items`, sendObject)
     .then(resp => resp.json())
     // list pantry items
+    // sort response alphabetically
     .then(json => {
-        json.forEach(item => listPantryItem(item))
+        json.sort(function(a, b) {
+            var nameA = a.name.toLowerCase();
+            var nameB = b.name.toLowerCase();
+            if (nameA < nameB) {
+                return -1;
+            }
+            if (nameA > nameB) {
+                return 1;
+            }
+        }).forEach(item => listPantryItem(item))
+        // json.sort().forEach(item => listPantryItem(item))
     })
 }
 
